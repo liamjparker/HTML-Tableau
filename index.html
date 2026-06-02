@@ -4,220 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tableau Dashboard Documentation</title>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #0f1117;
-      --surface: #171b26;
-      --surface2: #1e2333;
-      --border: #2a3147;
-      --accent: #4f8ef7;
-      --accent2: #7c5cfc;
-      --success: #34d399;
-      --warning: #fbbf24;
-      --danger: #f87171;
-      --text: #e2e8f0;
-      --text-muted: #7a8499;
-      --mono: 'IBM Plex Mono', monospace;
-      --sans: 'IBM Plex Sans', sans-serif;
-    }
-
-    body {
-      font-family: var(--sans);
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      padding: 24px 16px 60px;
-    }
-
-    /* ── Header ── */
-    .doc-header {
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 20px;
-      margin-bottom: 32px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .doc-header-left { display: flex; align-items: center; gap: 12px; }
-    .header-icon {
-      width: 40px; height: 40px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px;
-    }
-    .doc-title { font-size: 22px; font-weight: 600; letter-spacing: -0.5px; }
-    .doc-subtitle { font-size: 12px; color: var(--text-muted); font-family: var(--mono); margin-top: 2px; }
-    .last-updated { font-size: 11px; color: var(--text-muted); font-family: var(--mono); }
-
-    /* ── Section wrapper ── */
-    .section {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      margin-bottom: 24px;
-      overflow: hidden;
-    }
-    .section-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 20px;
-      border-bottom: 1px solid var(--border);
-      background: var(--surface2);
-    }
-    .section-title {
-      font-size: 12px; font-weight: 600; text-transform: uppercase;
-      letter-spacing: 1.2px; color: var(--text-muted); font-family: var(--mono);
-      display: flex; align-items: center; gap: 8px;
-    }
-    .section-title span { font-size: 14px; }
-    .section-body { padding: 20px; }
-
-    /* ── Summary ── */
-    #summary-text {
-      width: 100%; min-height: 100px;
-      background: var(--bg); border: 1px solid var(--border);
-      color: var(--text); font-family: var(--sans); font-size: 14px;
-      padding: 12px 14px; border-radius: 6px; resize: vertical;
-      line-height: 1.6; outline: none; transition: border-color 0.2s;
-    }
-    #summary-text:focus { border-color: var(--accent); }
-    .summary-display {
-      font-size: 14px; line-height: 1.7; color: var(--text);
-      white-space: pre-wrap; display: none;
-    }
-    .summary-display.visible { display: block; }
-
-    /* ── Buttons ── */
-    .btn {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 7px 14px; border-radius: 6px; border: none;
-      font-size: 12px; font-weight: 500; cursor: pointer;
-      font-family: var(--sans); transition: all 0.15s; letter-spacing: 0.2px;
-    }
-    .btn-primary { background: var(--accent); color: #fff; }
-    .btn-primary:hover { background: #6ba0ff; }
-    .btn-secondary {
-      background: transparent; color: var(--text-muted);
-      border: 1px solid var(--border);
-    }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
-    .btn-success { background: var(--success); color: #0f2a22; }
-    .btn-success:hover { background: #5eeab0; }
-    .btn-danger { background: transparent; color: var(--danger); border: 1px solid var(--border); }
-    .btn-danger:hover { border-color: var(--danger); }
-    .btn-sm { padding: 5px 10px; font-size: 11px; }
-
-    /* ── Tables ── */
-    .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .data-table th {
-      text-align: left; padding: 10px 14px;
-      font-size: 10px; font-weight: 600; text-transform: uppercase;
-      letter-spacing: 1px; color: var(--text-muted); font-family: var(--mono);
-      border-bottom: 1px solid var(--border);
-    }
-    .data-table td {
-      padding: 12px 14px; border-bottom: 1px solid var(--border);
-      vertical-align: top; line-height: 1.5;
-    }
-    .data-table tr:last-child td { border-bottom: none; }
-    .data-table tr:hover td { background: rgba(79,142,247,0.04); }
-    .empty-state {
-      text-align: center; padding: 36px 20px;
-      color: var(--text-muted); font-size: 13px; font-family: var(--mono);
-    }
-    .empty-state .empty-icon { font-size: 28px; margin-bottom: 8px; }
-
-    /* ── Tags ── */
-    .tag {
-      display: inline-block; padding: 2px 8px; border-radius: 4px;
-      font-size: 10px; font-weight: 600; font-family: var(--mono);
-      text-transform: uppercase; letter-spacing: 0.5px;
-    }
-    .tag-excel { background: rgba(52,211,153,0.15); color: var(--success); }
-    .tag-database { background: rgba(79,142,247,0.15); color: var(--accent); }
-    .tag-csv { background: rgba(251,191,36,0.15); color: var(--warning); }
-    .tag-other { background: rgba(122,132,153,0.15); color: var(--text-muted); }
-
-    .calc-code {
-      font-family: var(--mono); font-size: 12px;
-      background: var(--bg); padding: 8px 10px; border-radius: 4px;
-      border-left: 2px solid var(--accent2); color: #c4b5fd;
-      white-space: pre-wrap; word-break: break-all; max-width: 380px;
-    }
-    .comment-text { font-size: 12px; color: var(--text-muted); font-style: italic; }
-
-    /* ── Modal ── */
-    .modal-overlay {
-      display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
-      z-index: 100; align-items: center; justify-content: center;
-    }
-    .modal-overlay.open { display: flex; }
-    .modal {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 12px; width: 100%; max-width: 520px;
-      max-height: 90vh; overflow-y: auto; padding: 0;
-      animation: modal-in 0.2s ease;
-    }
-    @keyframes modal-in {
-      from { opacity: 0; transform: translateY(-12px) scale(0.98); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    .modal-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 18px 22px; border-bottom: 1px solid var(--border);
-    }
-    .modal-title { font-size: 15px; font-weight: 600; }
-    .modal-close {
-      background: none; border: none; color: var(--text-muted);
-      font-size: 20px; cursor: pointer; line-height: 1; padding: 0 4px;
-    }
-    .modal-close:hover { color: var(--text); }
-    .modal-body { padding: 22px; display: flex; flex-direction: column; gap: 16px; }
-    .modal-footer {
-      padding: 16px 22px; border-top: 1px solid var(--border);
-      display: flex; justify-content: flex-end; gap: 8px;
-    }
-
-    /* ── Form fields ── */
-    .field { display: flex; flex-direction: column; gap: 6px; }
-    .field label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-family: var(--mono); }
-    .field input, .field select, .field textarea {
-      background: var(--bg); border: 1px solid var(--border);
-      color: var(--text); font-family: var(--sans); font-size: 13px;
-      padding: 9px 12px; border-radius: 6px; outline: none;
-      transition: border-color 0.2s; width: 100%;
-    }
-    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--accent); }
-    .field textarea { resize: vertical; min-height: 90px; line-height: 1.5; }
-    .field select option { background: var(--surface2); }
-
-    /* ── Change log badge ── */
-    .change-date { font-family: var(--mono); font-size: 11px; color: var(--accent); }
-    .change-feature-list { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
-    .feature-chip {
-      font-size: 11px; background: rgba(124,92,252,0.15);
-      color: #a78bfa; padding: 2px 8px; border-radius: 20px;
-      font-family: var(--mono);
-    }
-
-    /* ── Action row ── */
-    .action-row { display: flex; justify-content: flex-end; margin-top: 14px; }
-
-    /* ── Scrollbar ── */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-
-    @media (max-width: 600px) {
-      .data-table th:nth-child(3), .data-table td:nth-child(3) { display: none; }
-    }
-  </style>
 </head>
 <body>
 
@@ -233,10 +19,7 @@
   <div class="last-updated" id="last-updated-label">Last updated: —</div>
 </div>
 
-
-<!-- ══════════════════════════════
-     1. SUMMARY
-══════════════════════════════ -->
+<!-- 1. SUMMARY -->
 <div class="section">
   <div class="section-header">
     <div class="section-title"><span>📝</span> Dashboard Summary</div>
@@ -251,10 +34,7 @@
   </div>
 </div>
 
-
-<!-- ══════════════════════════════
-     2. CALCULATIONS
-══════════════════════════════ -->
+<!-- 2. CALCULATIONS -->
 <div class="section">
   <div class="section-header">
     <div class="section-title"><span>🧮</span> Calculations</div>
@@ -268,10 +48,7 @@
     <table class="data-table" id="calc-table" style="display:none;">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Formula</th>
-          <th>Comment / Notes</th>
-          <th style="width:60px;"></th>
+          <th>Name</th><th>Formula</th><th>Comment / Notes</th><th style="width:60px;"></th>
         </tr>
       </thead>
       <tbody id="calc-tbody"></tbody>
@@ -279,10 +56,7 @@
   </div>
 </div>
 
-
-<!-- ══════════════════════════════
-     3. DATA SOURCES
-══════════════════════════════ -->
+<!-- 3. DATA SOURCES -->
 <div class="section">
   <div class="section-header">
     <div class="section-title"><span>🗄️</span> Data Sources</div>
@@ -296,11 +70,7 @@
     <table class="data-table" id="ds-table" style="display:none;">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Owner</th>
-          <th>Frequency</th>
-          <th style="width:60px;"></th>
+          <th>Name</th><th>Type</th><th>Owner</th><th>Frequency</th><th style="width:60px;"></th>
         </tr>
       </thead>
       <tbody id="ds-tbody"></tbody>
@@ -308,10 +78,7 @@
   </div>
 </div>
 
-
-<!-- ══════════════════════════════
-     4. CHANGE LOG
-══════════════════════════════ -->
+<!-- 4. CHANGE LOG -->
 <div class="section">
   <div class="section-header">
     <div class="section-title"><span>📋</span> Change Log</div>
@@ -325,11 +92,7 @@
     <table class="data-table" id="log-table" style="display:none;">
       <thead>
         <tr>
-          <th>Date</th>
-          <th>Author</th>
-          <th>Description</th>
-          <th>New Features</th>
-          <th style="width:60px;"></th>
+          <th>Date</th><th>Author</th><th>Description</th><th>New Features</th><th style="width:60px;"></th>
         </tr>
       </thead>
       <tbody id="log-tbody"></tbody>
@@ -337,10 +100,7 @@
   </div>
 </div>
 
-
-<!-- ══════════════════════════════
-     MODAL: Add Calculation
-══════════════════════════════ -->
+<!-- MODAL: Add Calculation -->
 <div class="modal-overlay" id="calc-modal">
   <div class="modal">
     <div class="modal-header">
@@ -348,18 +108,9 @@
       <button class="modal-close" onclick="closeModal('calc-modal')">×</button>
     </div>
     <div class="modal-body">
-      <div class="field">
-        <label>Calculation Name</label>
-        <input type="text" id="calc-name" placeholder="e.g. Profit Margin %" />
-      </div>
-      <div class="field">
-        <label>Formula</label>
-        <textarea id="calc-formula" placeholder="e.g. SUM([Profit]) / SUM([Sales])"></textarea>
-      </div>
-      <div class="field">
-        <label>Comment / Notes</label>
-        <textarea id="calc-comment" placeholder="Explain what this calculation does, any caveats, or business logic…" style="min-height:70px;"></textarea>
-      </div>
+      <div class="field"><label>Calculation Name</label><input type="text" id="calc-name" placeholder="e.g. Profit Margin %" /></div>
+      <div class="field"><label>Formula</label><textarea id="calc-formula" placeholder="e.g. SUM([Profit]) / SUM([Sales])"></textarea></div>
+      <div class="field"><label>Comment / Notes</label><textarea id="calc-comment" placeholder="Explain what this calculation does, any caveats, or business logic…" style="min-height:70px;"></textarea></div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-secondary" onclick="closeModal('calc-modal')">Cancel</button>
@@ -368,10 +119,7 @@
   </div>
 </div>
 
-
-<!-- ══════════════════════════════
-     MODAL: Add Data Source
-══════════════════════════════ -->
+<!-- MODAL: Add Data Source -->
 <div class="modal-overlay" id="ds-modal">
   <div class="modal">
     <div class="modal-header">
@@ -379,10 +127,7 @@
       <button class="modal-close" onclick="closeModal('ds-modal')">×</button>
     </div>
     <div class="modal-body">
-      <div class="field">
-        <label>Data Source Name</label>
-        <input type="text" id="ds-name" placeholder="e.g. Sales Transactions" />
-      </div>
+      <div class="field"><label>Data Source Name</label><input type="text" id="ds-name" placeholder="e.g. Sales Transactions" /></div>
       <div class="field">
         <label>File / Connection Type</label>
         <select id="ds-type">
@@ -393,10 +138,7 @@
           <option value="other">Other</option>
         </select>
       </div>
-      <div class="field">
-        <label>Data Owner</label>
-        <input type="text" id="ds-owner" placeholder="Name or team responsible for this data" />
-      </div>
+      <div class="field"><label>Data Owner</label><input type="text" id="ds-owner" placeholder="Name or team responsible for this data" /></div>
       <div class="field">
         <label>Update Frequency</label>
         <select id="ds-frequency">
@@ -410,10 +152,7 @@
           <option value="Ad hoc">Ad hoc / Manual</option>
         </select>
       </div>
-      <div class="field">
-        <label>Notes (optional)</label>
-        <textarea id="ds-notes" placeholder="Connection string, file path, any relevant details…" style="min-height:60px;"></textarea>
-      </div>
+      <div class="field"><label>Notes (optional)</label><textarea id="ds-notes" placeholder="Connection string, file path, any relevant details…" style="min-height:60px;"></textarea></div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-secondary" onclick="closeModal('ds-modal')">Cancel</button>
@@ -422,10 +161,7 @@
   </div>
 </div>
 
-
-<!-- ══════════════════════════════
-     MODAL: Log Change
-══════════════════════════════ -->
+<!-- MODAL: Log Change -->
 <div class="modal-overlay" id="log-modal">
   <div class="modal">
     <div class="modal-header">
@@ -433,22 +169,10 @@
       <button class="modal-close" onclick="closeModal('log-modal')">×</button>
     </div>
     <div class="modal-body">
-      <div class="field">
-        <label>Date of Change</label>
-        <input type="date" id="log-date" />
-      </div>
-      <div class="field">
-        <label>Author</label>
-        <input type="text" id="log-author" placeholder="Who made this change?" />
-      </div>
-      <div class="field">
-        <label>Description of Change</label>
-        <textarea id="log-description" placeholder="What was changed and why?"></textarea>
-      </div>
-      <div class="field">
-        <label>New Features Added (comma-separated)</label>
-        <input type="text" id="log-features" placeholder="e.g. YoY comparison, Date filter, Drill-through" />
-      </div>
+      <div class="field"><label>Date of Change</label><input type="date" id="log-date" /></div>
+      <div class="field"><label>Author</label><input type="text" id="log-author" placeholder="Who made this change?" /></div>
+      <div class="field"><label>Description of Change</label><textarea id="log-description" placeholder="What was changed and why?"></textarea></div>
+      <div class="field"><label>New Features Added (comma-separated)</label><input type="text" id="log-features" placeholder="e.g. YoY comparison, Date filter, Drill-through" /></div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-secondary" onclick="closeModal('log-modal')">Cancel</button>
@@ -457,153 +181,326 @@
   </div>
 </div>
 
-
 <script>
-  /* ── Helpers ── */
-  function openModal(id) { document.getElementById(id).classList.add('open'); }
-  function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+/* ── Inject styles via JS so Confluence HTML macro sanitisation cannot strip them ── */
+(function () {
+  var css = [
+    '*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }',
 
-  // Close on overlay click
-  document.querySelectorAll('.modal-overlay').forEach(el => {
-    el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
-  });
+    'body {',
+    '  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;',
+    '  background: #0f1117; color: #e2e8f0; min-height: 100vh; padding: 24px 16px 60px;',
+    '}',
 
-  function escapeHtml(s) {
-    return String(s)
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-      .replace(/"/g,'&quot;');
-  }
+    '.doc-header {',
+    '  border-bottom: 1px solid #2a3147; padding-bottom: 20px; margin-bottom: 32px;',
+    '  display: flex; align-items: flex-end; justify-content: space-between;',
+    '  gap: 16px; flex-wrap: wrap;',
+    '}',
+    '.doc-header-left { display: flex; align-items: center; gap: 12px; }',
+    '.header-icon {',
+    '  width: 40px; height: 40px;',
+    '  background: linear-gradient(135deg, #4f8ef7, #7c5cfc);',
+    '  border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px;',
+    '}',
+    '.doc-title { font-size: 22px; font-weight: 600; letter-spacing: -0.5px; }',
+    '.doc-subtitle { font-size: 12px; color: #7a8499; font-family: "Courier New", Courier, monospace; margin-top: 2px; }',
+    '.last-updated { font-size: 11px; color: #7a8499; font-family: "Courier New", Courier, monospace; }',
 
-  function stampLastUpdated() {
-    const now = new Date();
-    document.getElementById('last-updated-label').textContent =
-      'Last updated: ' + now.toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' })
-      + ' ' + now.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
-  }
+    '.section {',
+    '  background: #171b26; border: 1px solid #2a3147;',
+    '  border-radius: 10px; margin-bottom: 24px; overflow: hidden;',
+    '}',
+    '.section-header {',
+    '  display: flex; align-items: center; justify-content: space-between;',
+    '  padding: 14px 20px; border-bottom: 1px solid #2a3147; background: #1e2333;',
+    '}',
+    '.section-title {',
+    '  font-size: 12px; font-weight: 600; text-transform: uppercase;',
+    '  letter-spacing: 1.2px; color: #7a8499;',
+    '  font-family: "Courier New", Courier, monospace;',
+    '  display: flex; align-items: center; gap: 8px;',
+    '}',
+    '.section-title span { font-size: 14px; }',
+    '.section-body { padding: 20px; }',
 
-  /* ── Summary ── */
-  let summaryLocked = false;
-  function saveSummary() {
-    const txt = document.getElementById('summary-text').value.trim();
-    if (!txt) return;
-    const display = document.getElementById('summary-display');
-    display.textContent = txt;
-    display.classList.add('visible');
-    document.getElementById('summary-text').style.display = 'none';
-    summaryLocked = true;
-    stampLastUpdated();
-  }
-  function toggleSummaryEdit() {
-    document.getElementById('summary-text').style.display = 'block';
-    document.getElementById('summary-display').classList.remove('visible');
-    summaryLocked = false;
-  }
+    '#summary-text {',
+    '  width: 100%; min-height: 100px; background: #0f1117; border: 1px solid #2a3147;',
+    '  color: #e2e8f0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;',
+    '  font-size: 14px; padding: 12px 14px; border-radius: 6px;',
+    '  resize: vertical; line-height: 1.6; outline: none; transition: border-color 0.2s;',
+    '}',
+    '#summary-text:focus { border-color: #4f8ef7; }',
+    '.summary-display { font-size: 14px; line-height: 1.7; color: #e2e8f0; white-space: pre-wrap; display: none; }',
+    '.summary-display.visible { display: block; }',
 
-  /* ── Calculations ── */
-  let calcItems = [];
-  function saveCalc() {
-    const name    = document.getElementById('calc-name').value.trim();
-    const formula = document.getElementById('calc-formula').value.trim();
-    const comment = document.getElementById('calc-comment').value.trim();
-    if (!name || !formula) { alert('Please enter a name and formula.'); return; }
-    calcItems.push({ id: Date.now(), name, formula, comment });
-    renderCalc();
-    ['calc-name','calc-formula','calc-comment'].forEach(id => document.getElementById(id).value = '');
-    closeModal('calc-modal');
-    stampLastUpdated();
-  }
-  function deleteCalc(id) {
-    calcItems = calcItems.filter(c => c.id !== id);
-    renderCalc();
-  }
-  function renderCalc() {
-    const empty = document.getElementById('calc-empty');
-    const table = document.getElementById('calc-table');
-    const tbody = document.getElementById('calc-tbody');
-    if (!calcItems.length) { empty.style.display = ''; table.style.display = 'none'; return; }
-    empty.style.display = 'none'; table.style.display = 'table';
-    tbody.innerHTML = calcItems.map(c => `
-      <tr>
-        <td style="font-weight:500;">${escapeHtml(c.name)}</td>
-        <td><div class="calc-code">${escapeHtml(c.formula)}</div></td>
-        <td><span class="comment-text">${escapeHtml(c.comment || '—')}</span></td>
-        <td><button class="btn btn-danger btn-sm" onclick="deleteCalc(${c.id})">✕</button></td>
-      </tr>`).join('');
-  }
+    '.btn {',
+    '  display: inline-flex; align-items: center; gap: 6px;',
+    '  padding: 7px 14px; border-radius: 6px; border: none;',
+    '  font-size: 12px; font-weight: 500; cursor: pointer;',
+    '  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;',
+    '  transition: all 0.15s; letter-spacing: 0.2px;',
+    '}',
+    '.btn-primary { background: #4f8ef7; color: #fff; }',
+    '.btn-primary:hover { background: #6ba0ff; }',
+    '.btn-secondary { background: transparent; color: #7a8499; border: 1px solid #2a3147; }',
+    '.btn-secondary:hover { border-color: #4f8ef7; color: #4f8ef7; }',
+    '.btn-success { background: #34d399; color: #0f2a22; }',
+    '.btn-success:hover { background: #5eeab0; }',
+    '.btn-danger { background: transparent; color: #f87171; border: 1px solid #2a3147; }',
+    '.btn-danger:hover { border-color: #f87171; }',
+    '.btn-sm { padding: 5px 10px; font-size: 11px; }',
 
-  /* ── Data Sources ── */
-  let dsItems = [];
-  function saveDS() {
-    const name      = document.getElementById('ds-name').value.trim();
-    const type      = document.getElementById('ds-type').value;
-    const owner     = document.getElementById('ds-owner').value.trim();
-    const frequency = document.getElementById('ds-frequency').value;
-    const notes     = document.getElementById('ds-notes').value.trim();
-    if (!name || !type || !owner) { alert('Please fill in Name, Type, and Owner.'); return; }
-    dsItems.push({ id: Date.now(), name, type, owner, frequency, notes });
-    renderDS();
-    ['ds-name','ds-owner','ds-notes'].forEach(id => document.getElementById(id).value = '');
-    document.getElementById('ds-type').value = '';
-    document.getElementById('ds-frequency').value = '';
-    closeModal('ds-modal');
-    stampLastUpdated();
-  }
-  function deleteDS(id) { dsItems = dsItems.filter(d => d.id !== id); renderDS(); }
-  const typeLabel = { excel:'Excel', csv:'CSV', database:'Database', other:'Other' };
-  function renderDS() {
-    const empty = document.getElementById('ds-empty');
-    const table = document.getElementById('ds-table');
-    const tbody = document.getElementById('ds-tbody');
-    if (!dsItems.length) { empty.style.display = ''; table.style.display = 'none'; return; }
-    empty.style.display = 'none'; table.style.display = 'table';
-    tbody.innerHTML = dsItems.map(d => `
-      <tr>
-        <td style="font-weight:500;">${escapeHtml(d.name)}${d.notes ? `<div style="font-size:11px;color:#7a8499;margin-top:3px;">${escapeHtml(d.notes)}</div>` : ''}</td>
-        <td><span class="tag tag-${d.type}">${escapeHtml(typeLabel[d.type]||d.type)}</span></td>
-        <td>${escapeHtml(d.owner)}</td>
-        <td>${escapeHtml(d.frequency||'—')}</td>
-        <td><button class="btn btn-danger btn-sm" onclick="deleteDS(${d.id})">✕</button></td>
-      </tr>`).join('');
-  }
+    '.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }',
+    '.data-table th {',
+    '  text-align: left; padding: 10px 14px;',
+    '  font-size: 10px; font-weight: 600; text-transform: uppercase;',
+    '  letter-spacing: 1px; color: #7a8499; font-family: "Courier New", Courier, monospace;',
+    '  border-bottom: 1px solid #2a3147;',
+    '}',
+    '.data-table td {',
+    '  padding: 12px 14px; border-bottom: 1px solid #2a3147;',
+    '  vertical-align: top; line-height: 1.5;',
+    '}',
+    '.data-table tr:last-child td { border-bottom: none; }',
+    '.data-table tr:hover td { background: rgba(79,142,247,0.04); }',
+    '.empty-state {',
+    '  text-align: center; padding: 36px 20px;',
+    '  color: #7a8499; font-size: 13px; font-family: "Courier New", Courier, monospace;',
+    '}',
+    '.empty-state .empty-icon { font-size: 28px; margin-bottom: 8px; }',
 
-  /* ── Change Log ── */
-  let logItems = [];
-  function saveLog() {
-    const date        = document.getElementById('log-date').value;
-    const author      = document.getElementById('log-author').value.trim();
-    const description = document.getElementById('log-description').value.trim();
-    const featuresRaw = document.getElementById('log-features').value.trim();
-    if (!date || !author || !description) { alert('Please fill in Date, Author, and Description.'); return; }
-    const features = featuresRaw ? featuresRaw.split(',').map(f => f.trim()).filter(Boolean) : [];
-    logItems.unshift({ id: Date.now(), date, author, description, features });
-    renderLog();
-    ['log-date','log-author','log-description','log-features'].forEach(id => document.getElementById(id).value = '');
-    closeModal('log-modal');
-    stampLastUpdated();
-  }
-  function deleteLog(id) { logItems = logItems.filter(l => l.id !== id); renderLog(); }
-  function renderLog() {
-    const empty = document.getElementById('log-empty');
-    const table = document.getElementById('log-table');
-    const tbody = document.getElementById('log-tbody');
-    if (!logItems.length) { empty.style.display = ''; table.style.display = 'none'; return; }
-    empty.style.display = 'none'; table.style.display = 'table';
-    tbody.innerHTML = logItems.map(l => `
-      <tr>
-        <td><span class="change-date">${escapeHtml(l.date)}</span></td>
-        <td>${escapeHtml(l.author)}</td>
-        <td>${escapeHtml(l.description)}</td>
-        <td><div class="change-feature-list">${l.features.length ? l.features.map(f=>`<span class="feature-chip">${escapeHtml(f)}</span>`).join('') : '<span style="color:#7a8499;font-size:11px;">—</span>'}</div></td>
-        <td><button class="btn btn-danger btn-sm" onclick="deleteLog(${l.id})">✕</button></td>
-      </tr>`).join('');
-  }
+    '.tag {',
+    '  display: inline-block; padding: 2px 8px; border-radius: 4px;',
+    '  font-size: 10px; font-weight: 600; font-family: "Courier New", Courier, monospace;',
+    '  text-transform: uppercase; letter-spacing: 0.5px;',
+    '}',
+    '.tag-excel    { background: rgba(52,211,153,0.15); color: #34d399; }',
+    '.tag-database { background: rgba(79,142,247,0.15); color: #4f8ef7; }',
+    '.tag-csv      { background: rgba(251,191,36,0.15); color: #fbbf24; }',
+    '.tag-other    { background: rgba(122,132,153,0.15); color: #7a8499; }',
 
-  // Pre-fill today's date in change log modal
-  document.getElementById('log-date').value = new Date().toISOString().slice(0,10);
-  document.getElementById('log-modal').addEventListener('click', () => {
-    if (!document.getElementById('log-date').value)
-      document.getElementById('log-date').value = new Date().toISOString().slice(0,10);
-  });
+    '.calc-code {',
+    '  font-family: "Courier New", Courier, monospace; font-size: 12px;',
+    '  background: #0f1117; padding: 8px 10px; border-radius: 4px;',
+    '  border-left: 2px solid #7c5cfc; color: #c4b5fd;',
+    '  white-space: pre-wrap; word-break: break-all; max-width: 380px;',
+    '}',
+    '.comment-text { font-size: 12px; color: #7a8499; font-style: italic; }',
+
+    '.modal-overlay {',
+    '  display: none; position: fixed; inset: 0;',
+    '  background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);',
+    '  z-index: 100; align-items: center; justify-content: center;',
+    '}',
+    '.modal-overlay.open { display: flex; }',
+    '.modal {',
+    '  background: #171b26; border: 1px solid #2a3147;',
+    '  border-radius: 12px; width: 100%; max-width: 520px;',
+    '  max-height: 90vh; overflow-y: auto; padding: 0;',
+    '  animation: modal-in 0.2s ease;',
+    '}',
+    '@keyframes modal-in {',
+    '  from { opacity: 0; transform: translateY(-12px) scale(0.98); }',
+    '  to   { opacity: 1; transform: translateY(0) scale(1); }',
+    '}',
+    '.modal-header {',
+    '  display: flex; align-items: center; justify-content: space-between;',
+    '  padding: 18px 22px; border-bottom: 1px solid #2a3147;',
+    '}',
+    '.modal-title { font-size: 15px; font-weight: 600; }',
+    '.modal-close {',
+    '  background: none; border: none; color: #7a8499;',
+    '  font-size: 20px; cursor: pointer; line-height: 1; padding: 0 4px;',
+    '}',
+    '.modal-close:hover { color: #e2e8f0; }',
+    '.modal-body { padding: 22px; display: flex; flex-direction: column; gap: 16px; }',
+    '.modal-footer {',
+    '  padding: 16px 22px; border-top: 1px solid #2a3147;',
+    '  display: flex; justify-content: flex-end; gap: 8px;',
+    '}',
+
+    '.field { display: flex; flex-direction: column; gap: 6px; }',
+    '.field label {',
+    '  font-size: 11px; font-weight: 600; color: #7a8499; text-transform: uppercase;',
+    '  letter-spacing: 0.8px; font-family: "Courier New", Courier, monospace;',
+    '}',
+    '.field input, .field select, .field textarea {',
+    '  background: #0f1117; border: 1px solid #2a3147; color: #e2e8f0;',
+    '  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;',
+    '  font-size: 13px; padding: 9px 12px; border-radius: 6px;',
+    '  outline: none; transition: border-color 0.2s; width: 100%;',
+    '}',
+    '.field input:focus, .field select:focus, .field textarea:focus { border-color: #4f8ef7; }',
+    '.field textarea { resize: vertical; min-height: 90px; line-height: 1.5; }',
+    '.field select option { background: #1e2333; }',
+
+    '.change-date { font-family: "Courier New", Courier, monospace; font-size: 11px; color: #4f8ef7; }',
+    '.change-feature-list { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }',
+    '.feature-chip {',
+    '  font-size: 11px; background: rgba(124,92,252,0.15); color: #a78bfa;',
+    '  padding: 2px 8px; border-radius: 20px;',
+    '  font-family: "Courier New", Courier, monospace;',
+    '}',
+
+    '.action-row { display: flex; justify-content: flex-end; margin-top: 14px; }',
+
+    '::-webkit-scrollbar { width: 6px; height: 6px; }',
+    '::-webkit-scrollbar-track { background: #0f1117; }',
+    '::-webkit-scrollbar-thumb { background: #2a3147; border-radius: 3px; }',
+
+    '@media (max-width: 600px) {',
+    '  .data-table th:nth-child(3), .data-table td:nth-child(3) { display: none; }',
+    '}'
+  ].join('\n');
+
+  var el = document.createElement('style');
+  el.textContent = css;
+  (document.head || document.body).appendChild(el);
+}());
+
+/* ── Helpers ── */
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+document.querySelectorAll('.modal-overlay').forEach(function (el) {
+  el.addEventListener('click', function (e) { if (e.target === el) el.classList.remove('open'); });
+});
+
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+function stampLastUpdated() {
+  var now = new Date();
+  document.getElementById('last-updated-label').textContent =
+    'Last updated: ' +
+    now.toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' }) +
+    ' ' + now.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
+}
+
+/* ── Summary ── */
+function saveSummary() {
+  var txt = document.getElementById('summary-text').value.trim();
+  if (!txt) return;
+  var display = document.getElementById('summary-display');
+  display.textContent = txt;
+  display.classList.add('visible');
+  document.getElementById('summary-text').style.display = 'none';
+  stampLastUpdated();
+}
+function toggleSummaryEdit() {
+  document.getElementById('summary-text').style.display = 'block';
+  document.getElementById('summary-display').classList.remove('visible');
+}
+
+/* ── Calculations ── */
+var calcItems = [];
+function saveCalc() {
+  var name    = document.getElementById('calc-name').value.trim();
+  var formula = document.getElementById('calc-formula').value.trim();
+  var comment = document.getElementById('calc-comment').value.trim();
+  if (!name || !formula) { alert('Please enter a name and formula.'); return; }
+  calcItems.push({ id: Date.now(), name: name, formula: formula, comment: comment });
+  renderCalc();
+  ['calc-name','calc-formula','calc-comment'].forEach(function (id) { document.getElementById(id).value = ''; });
+  closeModal('calc-modal');
+  stampLastUpdated();
+}
+function deleteCalc(id) { calcItems = calcItems.filter(function (c) { return c.id !== id; }); renderCalc(); }
+function renderCalc() {
+  var empty = document.getElementById('calc-empty');
+  var table = document.getElementById('calc-table');
+  var tbody = document.getElementById('calc-tbody');
+  if (!calcItems.length) { empty.style.display = ''; table.style.display = 'none'; return; }
+  empty.style.display = 'none'; table.style.display = 'table';
+  tbody.innerHTML = calcItems.map(function (c) {
+    return '<tr>' +
+      '<td style="font-weight:500;">' + escapeHtml(c.name) + '</td>' +
+      '<td><div class="calc-code">' + escapeHtml(c.formula) + '</div></td>' +
+      '<td><span class="comment-text">' + escapeHtml(c.comment || '—') + '</span></td>' +
+      '<td><button class="btn btn-danger btn-sm" onclick="deleteCalc(' + c.id + ')">✕</button></td>' +
+      '</tr>';
+  }).join('');
+}
+
+/* ── Data Sources ── */
+var dsItems = [];
+function saveDS() {
+  var name      = document.getElementById('ds-name').value.trim();
+  var type      = document.getElementById('ds-type').value;
+  var owner     = document.getElementById('ds-owner').value.trim();
+  var frequency = document.getElementById('ds-frequency').value;
+  var notes     = document.getElementById('ds-notes').value.trim();
+  if (!name || !type || !owner) { alert('Please fill in Name, Type, and Owner.'); return; }
+  dsItems.push({ id: Date.now(), name: name, type: type, owner: owner, frequency: frequency, notes: notes });
+  renderDS();
+  ['ds-name','ds-owner','ds-notes'].forEach(function (id) { document.getElementById(id).value = ''; });
+  document.getElementById('ds-type').value = '';
+  document.getElementById('ds-frequency').value = '';
+  closeModal('ds-modal');
+  stampLastUpdated();
+}
+function deleteDS(id) { dsItems = dsItems.filter(function (d) { return d.id !== id; }); renderDS(); }
+var typeLabel = { excel:'Excel', csv:'CSV', database:'Database', other:'Other' };
+function renderDS() {
+  var empty = document.getElementById('ds-empty');
+  var table = document.getElementById('ds-table');
+  var tbody = document.getElementById('ds-tbody');
+  if (!dsItems.length) { empty.style.display = ''; table.style.display = 'none'; return; }
+  empty.style.display = 'none'; table.style.display = 'table';
+  tbody.innerHTML = dsItems.map(function (d) {
+    return '<tr>' +
+      '<td style="font-weight:500;">' + escapeHtml(d.name) +
+        (d.notes ? '<div style="font-size:11px;color:#7a8499;margin-top:3px;">' + escapeHtml(d.notes) + '</div>' : '') + '</td>' +
+      '<td><span class="tag tag-' + d.type + '">' + escapeHtml(typeLabel[d.type] || d.type) + '</span></td>' +
+      '<td>' + escapeHtml(d.owner) + '</td>' +
+      '<td>' + escapeHtml(d.frequency || '—') + '</td>' +
+      '<td><button class="btn btn-danger btn-sm" onclick="deleteDS(' + d.id + ')">✕</button></td>' +
+      '</tr>';
+  }).join('');
+}
+
+/* ── Change Log ── */
+var logItems = [];
+function saveLog() {
+  var date        = document.getElementById('log-date').value;
+  var author      = document.getElementById('log-author').value.trim();
+  var description = document.getElementById('log-description').value.trim();
+  var featuresRaw = document.getElementById('log-features').value.trim();
+  if (!date || !author || !description) { alert('Please fill in Date, Author, and Description.'); return; }
+  var features = featuresRaw ? featuresRaw.split(',').map(function (f) { return f.trim(); }).filter(Boolean) : [];
+  logItems.unshift({ id: Date.now(), date: date, author: author, description: description, features: features });
+  renderLog();
+  ['log-date','log-author','log-description','log-features'].forEach(function (id) { document.getElementById(id).value = ''; });
+  closeModal('log-modal');
+  stampLastUpdated();
+}
+function deleteLog(id) { logItems = logItems.filter(function (l) { return l.id !== id; }); renderLog(); }
+function renderLog() {
+  var empty = document.getElementById('log-empty');
+  var table = document.getElementById('log-table');
+  var tbody = document.getElementById('log-tbody');
+  if (!logItems.length) { empty.style.display = ''; table.style.display = 'none'; return; }
+  empty.style.display = 'none'; table.style.display = 'table';
+  tbody.innerHTML = logItems.map(function (l) {
+    var chips = l.features.length
+      ? l.features.map(function (f) { return '<span class="feature-chip">' + escapeHtml(f) + '</span>'; }).join('')
+      : '<span style="color:#7a8499;font-size:11px;">—</span>';
+    return '<tr>' +
+      '<td><span class="change-date">' + escapeHtml(l.date) + '</span></td>' +
+      '<td>' + escapeHtml(l.author) + '</td>' +
+      '<td>' + escapeHtml(l.description) + '</td>' +
+      '<td><div class="change-feature-list">' + chips + '</div></td>' +
+      '<td><button class="btn btn-danger btn-sm" onclick="deleteLog(' + l.id + ')">✕</button></td>' +
+      '</tr>';
+  }).join('');
+}
+
+/* Pre-fill today's date */
+document.getElementById('log-date').value = new Date().toISOString().slice(0, 10);
 </script>
 </body>
 </html>
