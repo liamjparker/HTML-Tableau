@@ -142,23 +142,12 @@
   .cover-footer-logo { font-family: var(--serif); font-size: 13pt; color: #aaaaaa; letter-spacing: 1px; }
   .cover-date { font-family: var(--mono); font-size: 9pt; color: #aaaaaa; }
 
-  /* TOC */
-  .toc-page { padding: 56px 72px; page-break-after: always; background: #fff; }
-  .toc-header { margin-bottom: 40px; }
   .section-eyebrow {
     font-family: var(--mono); font-size: 9pt; color: #555555;
     letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;
   }
   .section-title { font-family: var(--serif); font-size: 26pt; font-weight: 700; color: #111111; }
   .title-bar { width: 48px; height: 3px; background: #111111; margin-top: 12px; border-radius: 2px; }
-  .toc-entries { margin-top: 32px; }
-  .toc-entry { display: flex; align-items: baseline; padding: 12px 0; border-bottom: 1px solid #e8e8e8; }
-  .toc-num { font-family: var(--serif); font-size: 11pt; color: #333333; font-weight: 600; width: 36px; flex-shrink: 0; }
-  .toc-name { font-family: var(--sans); font-size: 13pt; color: #111111; font-weight: 500; flex: 1; }
-  .toc-desc { font-size: 10pt; color: #777777; display: block; font-weight: 400; margin-top: 2px; }
-  .toc-dots { flex: 1; border-bottom: 1px dotted #aaa; margin: 0 12px; min-width: 20px; align-self: center; }
-  .toc-pg { font-family: var(--mono); font-size: 10pt; color: #111111; font-weight: 500; flex-shrink: 0; }
-
   /* Content sections */
   .content-section { padding: 56px 72px; page-break-after: always; background: #fff; }
   .content-section:last-child { page-break-after: auto; }
@@ -245,7 +234,7 @@
     .app-header, .upload-zone, .status-bar, .actions, .preview-label, .preview-frame { display: none !important; }
     #report { display: block !important; }
     .cover-page { min-height: 297mm; }
-    .content-section, .toc-page { padding: 40px 56px; }
+    .content-section { padding: 40px 56px; }
     .report-table { font-size: 9.5pt; }
     thead { display: table-header-group; }
     tr { page-break-inside: avoid; }
@@ -564,20 +553,6 @@ function buildReport(wb, filename) {
         <div class="cover-footer-logo">Dashboard Docs</div>
         <div class="cover-date">${filename.toUpperCase()}</div>
       </div>
-    </div>
-  </div>
-
-  <div class="toc-page">
-    <div class="toc-header">
-      <div class="section-eyebrow">Contents</div>
-      <h2 class="section-title">Table of Contents</h2>
-      <div class="title-bar"></div>
-    </div>
-    <div class="toc-entries">
-      <div class="toc-entry"><span class="toc-num">01</span><span class="toc-name">Summary<span class="toc-desc">Dashboard overview, developer, and user information</span></span><span class="toc-dots"></span><span class="toc-pg">3</span></div>
-      <div class="toc-entry"><span class="toc-num">02</span><span class="toc-name">Data Sources<span class="toc-desc">Connected data sources, types, and refresh schedules</span></span><span class="toc-dots"></span><span class="toc-pg">4</span></div>
-      <div class="toc-entry"><span class="toc-num">03</span><span class="toc-name">Calculations<span class="toc-desc">Formulas, business logic, and calculation definitions</span></span><span class="toc-dots"></span><span class="toc-pg">5</span></div>
-      <div class="toc-entry"><span class="toc-num">04</span><span class="toc-name">Change Log<span class="toc-desc">Revision history, updates, and modifications</span></span><span class="toc-dots"></span><span class="toc-pg">6</span></div>
     </div>
   </div>
 
