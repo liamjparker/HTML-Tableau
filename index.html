@@ -7,12 +7,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 <style>
-  /* ── VARIABLES ──────────────────────────────────────────── */
   :root {
     --bg:      #111111;
     --surface: #1a1a1a;
-    --surface2:#242424;
-    --accent:  #ffffff;
     --muted:   #888888;
     --border:  #333333;
     --text:    #d0d0d0;
@@ -24,543 +21,225 @@
     --mono:    'Courier New', Courier, monospace;
   }
 
-  /* ── RESET ──────────────────────────────────────────────── */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  /* ── APP SHELL (screen only) ────────────────────────────── */
+  /* ── APP SHELL ──────────────────────────────────────────── */
   @media screen {
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--sans);
-      font-size: 14px;
-      line-height: 1.6;
-      min-height: 100vh;
+      background: var(--bg); color: var(--text);
+      font-family: var(--sans); font-size: 14px;
+      line-height: 1.6; min-height: 100vh;
     }
-
     .app-header {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 32px 48px;
-      display: flex;
-      align-items: center;
-      gap: 24px;
+      background: var(--surface); border-bottom: 1px solid var(--border);
+      padding: 32px 48px; display: flex; align-items: center; gap: 24px;
     }
     .app-header .logo-mark {
-      width: 48px; height: 48px;
-      background: #ffffff;
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      font-family: var(--serif);
-      font-size: 22px; font-weight: 700;
-      color: #111111;
+      width: 48px; height: 48px; background: #fff; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      font-family: var(--serif); font-size: 22px; font-weight: 700; color: #111;
     }
-    .app-header h1 {
-      font-family: var(--serif);
-      font-size: 22px; font-weight: 600;
-      color: #ffffff;
-      letter-spacing: -0.3px;
-    }
-    .app-header p {
-      font-size: 13px; color: var(--muted); margin-top: 2px;
-    }
+    .app-header h1 { font-family: var(--serif); font-size: 22px; font-weight: 600; color: #fff; }
+    .app-header p  { font-size: 13px; color: var(--muted); margin-top: 2px; }
 
-    /* ── UPLOAD ZONE ─────────────────────────────────────── */
-    .upload-zone {
-      max-width: 760px;
-      margin: 48px auto;
-      padding: 0 24px;
-    }
+    .upload-zone { max-width: 760px; margin: 48px auto; padding: 0 24px; }
     .drop-area {
-      border: 2px dashed var(--border);
-      border-radius: 16px;
-      background: var(--surface);
-      padding: 60px 40px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      position: relative;
+      border: 2px dashed var(--border); border-radius: 16px;
+      background: var(--surface); padding: 60px 40px; text-align: center;
+      cursor: pointer; transition: all 0.25s ease; position: relative;
     }
-    .drop-area:hover, .drop-area.drag-over {
-      border-color: #ffffff;
-      background: rgba(255,255,255,0.04);
-    }
-    .drop-area input[type="file"] {
-      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
-    }
+    .drop-area:hover, .drop-area.drag-over { border-color: #fff; background: rgba(255,255,255,0.04); }
+    .drop-area input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
     .drop-icon {
-      width: 56px; height: 56px;
-      background: #ffffff;
-      border-radius: 14px;
-      margin: 0 auto 20px;
-      display: flex; align-items: center; justify-content: center;
+      width: 56px; height: 56px; background: #fff; border-radius: 14px;
+      margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;
     }
-    .drop-icon svg { width: 26px; height: 26px; color: #111111; fill: none; stroke: currentColor; stroke-width: 2; }
-    .drop-area h2 {
-      font-family: var(--serif);
-      font-size: 20px; font-weight: 600;
-      color: #ffffff; margin-bottom: 8px;
-    }
-    .drop-area p { color: var(--muted); font-size: 13px; }
+    .drop-icon svg { width: 26px; height: 26px; color: #111; fill: none; stroke: currentColor; stroke-width: 2; }
+    .drop-area h2 { font-family: var(--serif); font-size: 20px; font-weight: 600; color: #fff; margin-bottom: 8px; }
+    .drop-area p  { color: var(--muted); font-size: 13px; }
     .drop-area .format-badge {
       display: inline-block; margin-top: 16px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.2);
-      color: #cccccc;
-      font-family: var(--mono);
-      font-size: 11px; padding: 4px 12px; border-radius: 100px;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);
+      color: #ccc; font-family: var(--mono); font-size: 11px; padding: 4px 12px; border-radius: 100px;
     }
 
-    /* ── TABS EXPECTED ───────────────────────────────────── */
-    .tab-list {
-      display: flex; gap: 8px; margin-top: 24px; flex-wrap: wrap;
-    }
+    .tab-list { display: flex; gap: 8px; margin-top: 24px; flex-wrap: wrap; }
     .tab-pill {
       display: flex; align-items: center; gap: 6px;
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 100px; padding: 6px 14px;
-      font-size: 12px; color: var(--muted);
+      border-radius: 100px; padding: 6px 14px; font-size: 12px; color: var(--muted);
     }
     .tab-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); }
     .tab-pill.found { border-color: rgba(76,175,130,0.5); color: var(--success); }
     .tab-pill.found .dot { background: var(--success); }
 
-    /* ── STATUS ──────────────────────────────────────────── */
-    .status-bar {
-      max-width: 760px; margin: 0 auto 24px; padding: 0 24px;
-      display: none;
-    }
+    .status-bar { max-width: 760px; margin: 0 auto 24px; padding: 0 24px; display: none; }
     .status-bar.show { display: block; }
     .status-card {
-      background: rgba(76,175,130,0.1);
-      border: 1px solid rgba(76,175,130,0.3);
-      border-radius: var(--radius);
-      padding: 12px 16px;
-      display: flex; align-items: center; gap: 10px;
-      color: var(--success); font-size: 13px;
+      background: rgba(76,175,130,0.1); border: 1px solid rgba(76,175,130,0.3);
+      border-radius: var(--radius); padding: 12px 16px;
+      display: flex; align-items: center; gap: 10px; color: var(--success); font-size: 13px;
     }
 
-    /* ── ACTIONS ─────────────────────────────────────────── */
-    .actions {
-      max-width: 760px; margin: 0 auto 48px; padding: 0 24px;
-      display: none;
-    }
-    .actions.show { display: flex; gap: 12px; }
+    .actions { max-width: 760px; margin: 0 auto 48px; padding: 0 24px; display: none; }
+    .actions.show { display: flex; gap: 12px; flex-wrap: wrap; }
     .btn {
-      padding: 12px 28px; border-radius: var(--radius);
-      font-family: var(--sans);
-      font-size: 14px; font-weight: 500;
-      border: none; cursor: pointer; transition: all 0.2s ease;
-      display: flex; align-items: center; gap: 8px;
+      padding: 12px 28px; border-radius: var(--radius); font-family: var(--sans);
+      font-size: 14px; font-weight: 500; border: none; cursor: pointer;
+      transition: all 0.2s ease; display: flex; align-items: center; gap: 8px;
     }
-    .btn-primary {
-      background: #ffffff;
-      color: #111111; font-weight: 600;
-    }
+    .btn-primary { background: #fff; color: #111; font-weight: 600; }
     .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,255,255,0.15); }
-    .btn-ghost {
-      background: transparent; color: var(--muted);
-      border: 1px solid var(--border);
-    }
+    .btn-word { background: #2b579a; color: #fff; font-weight: 600; }
+    .btn-word:hover { transform: translateY(-1px); background: #3a6fc4; }
+    .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
     .btn-ghost:hover { border-color: var(--muted); color: var(--text); }
 
-    /* ── PREVIEW PANEL ───────────────────────────────────── */
-    .preview-wrapper {
-      max-width: 960px; margin: 0 auto 64px; padding: 0 24px;
-    }
+    .preview-wrapper { max-width: 960px; margin: 0 auto 64px; padding: 0 24px; }
     .preview-label {
       font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
       color: var(--muted); text-transform: uppercase; margin-bottom: 12px;
       font-family: var(--mono);
     }
-    .preview-frame {
-      background: #cccccc;
-      border-radius: 12px;
-      padding: 24px;
-      box-shadow: var(--shadow);
-    }
+    .preview-frame { background: #cccccc; border-radius: 12px; padding: 24px; box-shadow: var(--shadow); }
   }
 
-  /* ---------------------------------------------------------
-     PDF / PRINT DOCUMENT STYLES
-  --------------------------------------------------------- */
+  /* ── REPORT DOCUMENT ────────────────────────────────────── */
+  #report { font-family: var(--sans); font-size: 11pt; line-height: 1.6; color: #111; background: #fff; }
 
-  #report {
-    font-family: var(--sans);
-    font-size: 11pt;
-    line-height: 1.6;
-    color: #111111;
-    background: #fff;
-  }
-
-  /* ── COVER PAGE ──────────────────────────────────────── */
+  /* Cover page — clean white */
   .cover-page {
-    background: #111111;
-    min-height: 297mm;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow: hidden;
-    page-break-after: always;
-  }
-  .cover-accent-bar {
-    height: 6px;
-    background: #ffffff;
-  }
-  .cover-grid {
-    position: absolute; inset: 0;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-    background-size: 32px 32px;
+    background: #ffffff; min-height: 297mm; padding: 0;
+    display: flex; flex-direction: column;
+    page-break-after: always; border-top: 6px solid #111111;
   }
   .cover-body {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    flex: 1; display: flex; flex-direction: column; justify-content: space-between;
     padding: 64px 72px 56px;
-    position: relative;
-    z-index: 1;
   }
   .cover-tag {
-    font-family: var(--mono);
-    font-size: 10pt;
-    color: #999999;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+    font-family: var(--mono); font-size: 10pt; color: #666666;
+    letter-spacing: 2px; text-transform: uppercase;
   }
   .cover-title {
-    font-family: var(--serif);
-    font-size: 42pt;
-    font-weight: 700;
-    color: #ffffff;
-    line-height: 1.1;
-    letter-spacing: -1px;
-    margin-top: 16px;
-    max-width: 480px;
+    font-family: var(--serif); font-size: 40pt; font-weight: 700;
+    color: #111111; line-height: 1.1; letter-spacing: -1px;
+    margin-top: 16px; max-width: 520px;
   }
-  .cover-title span { color: #cccccc; }
-  .cover-subtitle {
-    font-size: 13pt;
-    color: #777777;
-    margin-top: 16px;
-    font-weight: 300;
-  }
-  .cover-divider {
-    width: 64px; height: 2px;
-    background: #ffffff;
-    margin: 32px 0;
-  }
-  .cover-meta-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    max-width: 420px;
-  }
+  .cover-title span { color: #555555; font-size: 28pt; display: block; margin-top: 8px; }
+  .cover-subtitle { font-size: 13pt; color: #777777; margin-top: 16px; }
+  .cover-divider { width: 64px; height: 2px; background: #111111; margin: 32px 0; }
+  .cover-meta-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 20px; max-width: 420px; }
   .cover-meta-item label {
-    display: block;
-    font-size: 9pt;
-    color: #888888;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    font-weight: 600;
-    margin-bottom: 4px;
+    display: block; font-size: 9pt; color: #555555;
+    letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; margin-bottom: 4px;
   }
-  .cover-meta-item span {
-    display: block;
-    font-size: 12pt;
-    color: #dddddd;
-    font-weight: 400;
-  }
+  .cover-meta-item span { display: block; font-size: 12pt; color: #111111; font-weight: 500; }
   .cover-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-top: 1px solid rgba(255,255,255,0.15);
-    padding-top: 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid #e0e0e0; padding-top: 24px;
   }
-  .cover-footer-logo {
-    font-family: var(--serif);
-    font-size: 13pt;
-    color: rgba(255,255,255,0.25);
-    letter-spacing: 1px;
-  }
-  .cover-date {
-    font-family: var(--mono);
-    font-size: 9pt;
-    color: rgba(255,255,255,0.25);
-  }
+  .cover-footer-logo { font-family: var(--serif); font-size: 13pt; color: #aaaaaa; letter-spacing: 1px; }
+  .cover-date { font-family: var(--mono); font-size: 9pt; color: #aaaaaa; }
 
-  /* ── TOC PAGE ────────────────────────────────────────── */
-  .toc-page {
-    padding: 56px 72px;
-    page-break-after: always;
-    background: #fff;
-  }
+  /* TOC */
+  .toc-page { padding: 56px 72px; page-break-after: always; background: #fff; }
   .toc-header { margin-bottom: 40px; }
   .section-eyebrow {
-    font-family: var(--mono);
-    font-size: 9pt;
-    color: #555555;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 8px;
+    font-family: var(--mono); font-size: 9pt; color: #555555;
+    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;
   }
-  .section-title {
-    font-family: var(--serif);
-    font-size: 26pt;
-    font-weight: 700;
-    color: #111111;
-    letter-spacing: -0.5px;
-  }
-  .title-bar {
-    width: 48px; height: 3px;
-    background: #111111;
-    margin-top: 12px; border-radius: 2px;
-  }
+  .section-title { font-family: var(--serif); font-size: 26pt; font-weight: 700; color: #111111; }
+  .title-bar { width: 48px; height: 3px; background: #111111; margin-top: 12px; border-radius: 2px; }
   .toc-entries { margin-top: 32px; }
-  .toc-entry {
-    display: flex;
-    align-items: baseline;
-    padding: 12px 0;
-    border-bottom: 1px solid #e8e8e8;
-  }
-  .toc-num {
-    font-family: var(--serif);
-    font-size: 11pt;
-    color: #333333;
-    font-weight: 600;
-    width: 36px;
-    flex-shrink: 0;
-  }
-  .toc-name {
-    font-family: var(--sans);
-    font-size: 13pt;
-    color: #111111;
-    font-weight: 500;
-    flex: 1;
-  }
-  .toc-desc {
-    font-size: 10pt;
-    color: #777777;
-    display: block;
-    font-weight: 400;
-    margin-top: 2px;
-  }
-  .toc-dots {
-    flex: 1;
-    border-bottom: 1px dotted #aaaaaa;
-    margin: 0 12px;
-    min-width: 20px;
-    align-self: center;
-  }
-  .toc-pg {
-    font-family: var(--mono);
-    font-size: 10pt;
-    color: #111111;
-    font-weight: 500;
-    flex-shrink: 0;
-  }
+  .toc-entry { display: flex; align-items: baseline; padding: 12px 0; border-bottom: 1px solid #e8e8e8; }
+  .toc-num { font-family: var(--serif); font-size: 11pt; color: #333333; font-weight: 600; width: 36px; flex-shrink: 0; }
+  .toc-name { font-family: var(--sans); font-size: 13pt; color: #111111; font-weight: 500; flex: 1; }
+  .toc-desc { font-size: 10pt; color: #777777; display: block; font-weight: 400; margin-top: 2px; }
+  .toc-dots { flex: 1; border-bottom: 1px dotted #aaa; margin: 0 12px; min-width: 20px; align-self: center; }
+  .toc-pg { font-family: var(--mono); font-size: 10pt; color: #111111; font-weight: 500; flex-shrink: 0; }
 
-  /* ── CONTENT SECTIONS ────────────────────────────────── */
-  .content-section {
-    padding: 56px 72px;
-    page-break-after: always;
-    background: #fff;
-  }
+  /* Content sections */
+  .content-section { padding: 56px 72px; page-break-after: always; background: #fff; }
   .content-section:last-child { page-break-after: auto; }
-
   .section-header {
-    margin-bottom: 36px;
-    padding-bottom: 24px;
-    border-bottom: 2px solid #e8e8e8;
-    position: relative;
+    margin-bottom: 36px; padding-bottom: 24px; border-bottom: 2px solid #e8e8e8; position: relative;
   }
   .section-header::after {
-    content: '';
-    position: absolute;
-    bottom: -2px; left: 0;
-    width: 80px; height: 2px;
-    background: #111111;
+    content: ''; position: absolute; bottom: -2px; left: 0; width: 80px; height: 2px; background: #111111;
   }
 
-  /* ── SUMMARY CARDS ───────────────────────────────────── */
-  .summary-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-top: 24px;
-  }
+  /* Summary cards */
+  .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
   .summary-card {
-    background: #f8f8f8;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 20px 24px;
-    position: relative;
-    overflow: hidden;
+    background: #f8f8f8; border: 1px solid #e0e0e0; border-radius: 8px;
+    padding: 20px 24px; position: relative; overflow: hidden;
   }
   .summary-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: #111111;
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: #111111;
   }
   .summary-card.full-width { grid-column: 1 / -1; }
   .summary-card label {
-    display: block;
-    font-size: 9pt;
-    color: #555555;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    font-weight: 600;
-    margin-bottom: 8px;
+    display: block; font-size: 9pt; color: #555555; letter-spacing: 1.5px;
+    text-transform: uppercase; font-weight: 600; margin-bottom: 8px;
   }
-  .summary-card .value {
-    font-size: 13pt;
-    color: #111111;
-    font-weight: 600;
-    font-family: var(--serif);
-  }
-  .summary-card .desc {
-    font-size: 10.5pt;
-    color: #444444;
-    line-height: 1.6;
-    margin-top: 4px;
-  }
+  .summary-card .value { font-size: 13pt; color: #111111; font-weight: 600; font-family: var(--serif); }
+  .summary-card .desc { font-size: 10.5pt; color: #444444; line-height: 1.6; margin-top: 4px; }
 
-  /* ── DATA TABLES ─────────────────────────────────────── */
-  .report-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 24px;
-    font-size: 10pt;
-  }
+  /* Tables */
+  .report-table { width: 100%; border-collapse: collapse; margin-top: 24px; font-size: 10pt; }
   .report-table thead tr { background: #111111; }
   .report-table thead th {
-    padding: 12px 16px;
-    text-align: left;
-    font-family: var(--sans);
-    font-size: 9pt;
-    font-weight: 600;
-    color: #ffffff;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    border: none;
+    padding: 12px 16px; text-align: left; font-family: var(--sans);
+    font-size: 9pt; font-weight: 600; color: #ffffff;
+    letter-spacing: 1px; text-transform: uppercase; border: none;
   }
   .report-table tbody tr { border-bottom: 1px solid #e8e8e8; }
   .report-table tbody tr:nth-child(even) { background: #f8f8f8; }
-  .report-table tbody td {
-    padding: 12px 16px;
-    color: #111111;
-    vertical-align: top;
-    line-height: 1.5;
-  }
-  .report-table tbody td.mono {
-    font-family: var(--mono);
-    font-size: 9pt;
-    color: #222222;
-    background: #f4f4f4;
-  }
+  .report-table tbody td { padding: 12px 16px; color: #111111; vertical-align: top; line-height: 1.5; }
+  .report-table tbody td.mono { font-family: var(--mono); font-size: 9pt; color: #222222; background: #f4f4f4; }
   .report-table .col-name { font-weight: 600; color: #111111; }
   .report-table .col-comments { color: #555555; font-style: italic; }
 
-  /* ── BADGE / PILLS ───────────────────────────────────── */
+  /* Badges */
   .badge {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 100px;
-    font-size: 8.5pt;
-    font-weight: 600;
-    letter-spacing: 0.5px;
+    display: inline-block; padding: 3px 10px; border-radius: 100px;
+    font-size: 8.5pt; font-weight: 600; letter-spacing: 0.5px;
   }
-  .badge-blue   { background: #e8e8e8; color: #111111; }
-  .badge-green  { background: #e0e0e0; color: #111111; }
-  .badge-amber  { background: #d8d8d8; color: #111111; }
-  .badge-slate  { background: #f0f0f0; color: #444444; border: 1px solid #dddddd; }
-  .badge-red    { background: #e4e4e4; color: #333333; }
+  .badge-blue  { background: #e8e8e8; color: #111111; }
+  .badge-green { background: #e0e0e0; color: #111111; }
+  .badge-amber { background: #d8d8d8; color: #111111; }
+  .badge-slate { background: #f0f0f0; color: #444444; border: 1px solid #dddddd; }
+  .badge-red   { background: #e4e4e4; color: #333333; }
 
-  /* ── FORMULA FIELD HIGHLIGHT ─────────────────────────── */
+  /* Orange field highlighting */
   .field-ref { color: #f97316; font-weight: 600; }
 
-  /* ── CHANGELOG SPECIFIC ──────────────────────────────── */
+  /* Changelog */
   .changelog-entry {
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 16px 20px;
-    margin-bottom: 12px;
-    position: relative;
-    background: #fff;
+    border: 1px solid #e0e0e0; border-radius: 8px; padding: 16px 20px;
+    margin-bottom: 12px; position: relative; background: #fff;
   }
   .changelog-entry::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 8px; bottom: 8px;
-    width: 3px;
-    background: #333333;
-    border-radius: 0 2px 2px 0;
+    content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+    width: 3px; background: #333333; border-radius: 0 2px 2px 0;
   }
-  .changelog-entry .cl-header {
-    display: flex; align-items: center; gap: 10px;
-    margin-bottom: 6px;
-  }
-  .changelog-entry .cl-date {
-    font-family: var(--mono);
-    font-size: 9pt; color: #777777; font-weight: 500;
-  }
-  .changelog-entry .cl-dashboard {
-    font-weight: 600; color: #111111; font-size: 10.5pt;
-  }
-  .changelog-entry .cl-comment {
-    font-size: 10pt; color: #444444; line-height: 1.5;
-  }
+  .changelog-entry .cl-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .changelog-entry .cl-date { font-family: var(--mono); font-size: 9pt; color: #777777; font-weight: 500; }
+  .changelog-entry .cl-dashboard { font-weight: 600; color: #111111; font-size: 10.5pt; }
+  .changelog-entry .cl-comment { font-size: 10pt; color: #444444; line-height: 1.5; }
 
-  /* ── PAGE FOOTER ─────────────────────────────────────── */
-  .page-footer {
-    margin-top: 40px;
-    padding-top: 16px;
-    border-top: 1px solid #e0e0e0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .page-footer .footer-brand {
-    font-family: var(--serif);
-    font-size: 10pt;
-    color: #333333;
-    font-weight: 600;
-  }
-  .page-footer .footer-tag {
-    font-family: var(--mono);
-    font-size: 8pt;
-    color: #aaaaaa;
-    letter-spacing: 0.5px;
-  }
-
-  /* ── EMPTY STATE ─────────────────────────────────────── */
-  .empty-row td {
-    text-align: center;
-    color: #aaaaaa;
-    font-style: italic;
-    padding: 24px !important;
-  }
-
-  /* ── COUNT BADGE ─────────────────────────────────────── */
+  /* Count badge */
   .count-badge {
     display: inline-flex; align-items: center; justify-content: center;
-    background: #eeeeee;
-    border: 1px solid #cccccc;
-    color: #333333;
-    font-family: var(--mono);
-    font-size: 9pt; font-weight: 600;
-    padding: 3px 10px; border-radius: 100px;
-    margin-left: 10px; vertical-align: middle;
+    background: #eeeeee; border: 1px solid #cccccc; color: #333333;
+    font-family: var(--mono); font-size: 9pt; font-weight: 600;
+    padding: 3px 10px; border-radius: 100px; margin-left: 10px; vertical-align: middle;
   }
 
-  /* ── PRINT RULES ─────────────────────────────────────── */
+  .empty-row td { text-align: center; color: #aaaaaa; font-style: italic; padding: 24px !important; }
+
+  /* Print */
   @media print {
     body { background: #fff !important; }
     .app-header, .upload-zone, .status-bar, .actions, .preview-label, .preview-frame { display: none !important; }
@@ -573,8 +252,6 @@
     .changelog-entry { page-break-inside: avoid; }
     @page { size: A4; margin: 0; }
   }
-
-  /* ── SCREEN: hide report until loaded ───────────────── */
   @media screen {
     #report { display: none; }
     #report.visible { display: block; }
@@ -584,12 +261,11 @@
 </head>
 <body>
 
-<!-- APP SHELL -->
 <header class="app-header">
   <div class="logo-mark">D</div>
   <div>
     <h1>Dashboard Report Generator</h1>
-    <p>Upload your Excel workbook · Preview the report · Export to PDF</p>
+    <p>Upload your Excel workbook · Preview the report · Export to PDF or Word</p>
   </div>
 </header>
 
@@ -603,7 +279,6 @@
     <p>or click to browse from your device</p>
     <span class="format-badge">.xlsx · .xls · .xlsm</span>
   </div>
-
   <div class="tab-list" id="tabList">
     <div class="tab-pill" id="pill-summary"><span class="dot"></span> Summary</div>
     <div class="tab-pill" id="pill-datasource"><span class="dot"></span> Data Source</div>
@@ -624,13 +299,16 @@
     <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6,9 6,2 18,2 18,9"/><path d="M6,18H4a2,2,0,0,1-2-2V11a2,2,0,0,1,2-2H20a2,2,0,0,1,2,2v5a2,2,0,0,1-2,2H18"/><rect x="6" y="14" width="12" height="8"/></svg>
     Export PDF
   </button>
+  <button class="btn btn-word" onclick="exportWord()">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
+    Export Word
+  </button>
   <button class="btn btn-ghost" onclick="clearReport()">
     <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="1,4 1,10 7,10"/><path d="M3.51,15A9,9,0,1,0,5.64,5.64L1,10"/></svg>
     Upload new file
   </button>
 </div>
 
-<!-- REPORT PREVIEW -->
 <div class="preview-wrapper" id="previewWrapper" style="display:none">
   <div class="preview-label">REPORT PREVIEW</div>
   <div class="preview-frame">
@@ -640,85 +318,97 @@
 
 
 <script>
-/* ── helpers ─────────────────────────────────────────── */
 const $ = id => document.getElementById(id);
 
+/* stored workbook reference for Word export */
+let lastWb = null;
+let lastFilename = '';
+
+/* ── helpers ─────────────────────────────────────────── */
 function safe(val) {
   if (val === undefined || val === null || val === '') return '—';
   return String(val).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-/* Escape then wrap [FieldName] references in orange spans */
-function highlightBrackets(val) {
+/* Escape then highlight [Field] references in orange */
+function highlightBrackets(val, inline) {
   if (val === undefined || val === null || val === '') return '—';
-  const escaped = String(val)
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  return escaped.replace(/\[([^\]]*)\]/g, '<span class="field-ref">[$1]</span>');
+  const escaped = String(val).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const spanStyle = inline
+    ? 'style="color:#f97316;font-weight:600;"'
+    : 'class="field-ref"';
+  return escaped.replace(/\[([^\]]*)\]/g, `<span ${spanStyle}>[$1]</span>`);
 }
 
-function badgeType(type) {
-  if (!type) return '<span class="badge badge-slate">—</span>';
+function badgeType(type, inline) {
+  if (!type) return badge('—', '#f0f0f0', '#444', inline);
   const t = String(type).toLowerCase();
-  if (t.includes('new') || t.includes('add'))     return `<span class="badge badge-green">${safe(type)}</span>`;
-  if (t.includes('fix') || t.includes('bug'))     return `<span class="badge badge-red">${safe(type)}</span>`;
-  if (t.includes('update') || t.includes('edit')) return `<span class="badge badge-blue">${safe(type)}</span>`;
-  if (t.includes('remove') || t.includes('del'))  return `<span class="badge badge-amber">${safe(type)}</span>`;
-  return `<span class="badge badge-slate">${safe(type)}</span>`;
+  if (t.includes('new')  || t.includes('add'))    return badge(safe(type), '#e0e0e0', '#111', inline);
+  if (t.includes('fix')  || t.includes('bug'))    return badge(safe(type), '#e4e4e4', '#333', inline);
+  if (t.includes('update')|| t.includes('edit'))  return badge(safe(type), '#e8e8e8', '#111', inline);
+  if (t.includes('remove')|| t.includes('del'))   return badge(safe(type), '#d8d8d8', '#111', inline);
+  return badge(safe(type), '#f0f0f0', '#444', inline);
 }
 
-function badgeConn(type) {
-  if (!type) return '<span class="badge badge-slate">—</span>';
+function badgeConn(type, inline) {
+  if (!type) return badge('—', '#f0f0f0', '#444', inline);
   const t = String(type).toLowerCase();
-  if (t.includes('api'))                                                 return `<span class="badge badge-blue">${safe(type)}</span>`;
-  if (t.includes('sql') || t.includes('db') || t.includes('database'))  return `<span class="badge badge-green">${safe(type)}</span>`;
-  if (t.includes('excel') || t.includes('csv') || t.includes('file'))   return `<span class="badge badge-amber">${safe(type)}</span>`;
-  if (t.includes('share') || t.includes('point'))                        return `<span class="badge badge-slate">${safe(type)}</span>`;
-  return `<span class="badge badge-slate">${safe(type)}</span>`;
+  if (t.includes('api'))                                                return badge(safe(type), '#e8e8e8', '#111', inline);
+  if (t.includes('sql')||t.includes('db')||t.includes('database'))     return badge(safe(type), '#e0e0e0', '#111', inline);
+  if (t.includes('excel')||t.includes('csv')||t.includes('file'))      return badge(safe(type), '#d8d8d8', '#111', inline);
+  if (t.includes('share')||t.includes('point'))                         return badge(safe(type), '#f0f0f0', '#444', inline);
+  return badge(safe(type), '#f0f0f0', '#444', inline);
+}
+
+function badge(text, bg, color, inline) {
+  if (inline) {
+    return `<span style="display:inline-block;padding:2px 8px;border-radius:100px;background:${bg};color:${color};font-size:8.5pt;font-weight:600;">${text}</span>`;
+  }
+  return `<span class="badge badge-slate">${text}</span>`;
 }
 
 function getDate() {
-  return new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  return new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
 }
 
-/* ── sheet → row array ───────────────────────────────── */
+/* ── sheet utilities ─────────────────────────────────── */
 function sheetToRows(sheet) {
-  const raw = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
-  if (!raw || raw.length < 2) return { headers: [], rows: [] };
+  const raw = XLSX.utils.sheet_to_json(sheet, { header:1, defval:'' });
+  if (!raw || raw.length < 2) return { headers:[], rows:[] };
   const headers = raw[0].map(h => String(h).trim());
   const rows = raw.slice(1).filter(r => r.some(c => c !== '' && c !== null && c !== undefined));
   return { headers, rows };
 }
 
-/* ── fuzzy find sheet ────────────────────────────────── */
 function findSheet(wb, keywords) {
-  const names = wb.SheetNames.map(n => ({ name: n, lower: n.toLowerCase().replace(/[^a-z]/g, '') }));
+  const names = wb.SheetNames.map(n => ({ name:n, lower:n.toLowerCase().replace(/[^a-z]/g,'') }));
   for (const kw of keywords) {
-    const match = names.find(n => n.lower.includes(kw));
-    if (match) return wb.Sheets[match.name];
+    const m = names.find(n => n.lower.includes(kw));
+    if (m) return wb.Sheets[m.name];
   }
   return null;
 }
 
-function setPill(id, found) {
-  if (found) $(id).classList.add('found');
+function setPill(id, found) { if (found) $(id).classList.add('found'); }
+
+/* column index helpers — fall back to positional default */
+function colIdx(h, matchers, fallback) {
+  const i = h.findIndex(x => matchers.some(m => x.includes(m)));
+  return i >= 0 ? i : fallback;
 }
 
-/* ── SUMMARY SECTION ─────────────────────────────────── */
+/* ── Section renderers (for PDF preview) ────────────── */
 function renderSummary(sheet) {
   if (!sheet) return `<p style="color:#777;font-style:italic;">No Summary tab found.</p>`;
   const { headers, rows } = sheetToRows(sheet);
   if (!rows.length) return `<p style="color:#777;font-style:italic;">Summary tab is empty.</p>`;
-
-  const colMap = {};
-  headers.forEach((h, i) => { colMap[h.toLowerCase().replace(/[^a-z]/g, '')] = i; });
-
+  const h = headers.map(x => x.toLowerCase().replace(/[^a-z]/g,''));
   let html = '';
   rows.forEach(row => {
-    const name    = row[colMap['dashboardname'] ?? colMap['name'] ?? 0] || '';
-    const summary = row[colMap['summary'] ?? colMap['description'] ?? 1] || '';
-    const dev     = row[colMap['developer'] ?? colMap['dev'] ?? colMap['author'] ?? 2] || '';
-    const users   = row[colMap['mainusers'] ?? colMap['users'] ?? colMap['owner'] ?? 3] || '';
-
+    const name    = row[colIdx(h,['dashboardname','name'],0)] || '';
+    const summary = row[colIdx(h,['summary','description'],1)] || '';
+    const dev     = row[colIdx(h,['developer','dev','author'],2)] || '';
+    const users   = row[colIdx(h,['mainusers','users','owner'],3)] || '';
     html += `
       <div style="margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid #e8e8e8;">
         <div class="summary-grid">
@@ -732,140 +422,102 @@ function renderSummary(sheet) {
   return html;
 }
 
-/* ── DATA SOURCE SECTION ─────────────────────────────── */
 function renderDataSource(sheet) {
   if (!sheet) return `<p style="color:#777;font-style:italic;">No Data Source tab found.</p>`;
   const { headers, rows } = sheetToRows(sheet);
-
+  const h = headers.map(x => x.toLowerCase().replace(/[^a-z]/g,''));
+  const idx = {
+    name:  colIdx(h,['name','source'],0),
+    conn:  colIdx(h,['connection','type','conn'],1),
+    cls:   colIdx(h,['classif'],2),
+    freq:  colIdx(h,['freq','update','refresh'],3),
+    notes: colIdx(h,['comment','note','desc'],4),
+  };
   let html = `
-    <table class="report-table">
-      <thead>
-        <tr>
-          <th style="width:20%">Data Source Name</th>
-          <th style="width:16%">Connection Type</th>
-          <th style="width:16%">Classification</th>
-          <th style="width:16%">Update Frequency</th>
-          <th>Comments</th>
-        </tr>
-      </thead>
-      <tbody>`;
-
+    <table class="report-table"><thead><tr>
+      <th style="width:18%">Data Source</th>
+      <th style="width:15%">Connection</th>
+      <th style="width:14%">Classification</th>
+      <th style="width:14%">Frequency</th>
+      <th>Comments</th>
+    </tr></thead><tbody>`;
   if (!rows.length) {
-    html += `<tr class="empty-row"><td colspan="5">No data source records found</td></tr>`;
+    html += `<tr class="empty-row"><td colspan="5">No records found</td></tr>`;
   } else {
-    const h = headers.map(x => x.toLowerCase().replace(/[^a-z]/g, ''));
-    const idx = {
-      name:           h.findIndex(x => x.includes('name') || x.includes('source')),
-      conn:           h.findIndex(x => x.includes('connection') || x.includes('type') || x.includes('conn')),
-      classification: h.findIndex(x => x.includes('classif')),
-      freq:           h.findIndex(x => x.includes('freq') || x.includes('update') || x.includes('refresh')),
-      comments:       h.findIndex(x => x.includes('comment') || x.includes('note') || x.includes('desc')),
-    };
-    /* fall back to positional defaults if header not found */
-    if (idx.name < 0)           idx.name = 0;
-    if (idx.conn < 0)           idx.conn = 1;
-    if (idx.classification < 0) idx.classification = 2;
-    if (idx.freq < 0)           idx.freq = 3;
-    if (idx.comments < 0)       idx.comments = 4;
-
     rows.forEach(row => {
-      html += `
-        <tr>
-          <td class="col-name">${safe(row[idx.name])}</td>
-          <td>${badgeConn(row[idx.conn])}</td>
-          <td><span class="badge badge-slate">${safe(row[idx.classification])}</span></td>
-          <td><span class="badge badge-slate">${safe(row[idx.freq])}</span></td>
-          <td class="col-comments">${safe(row[idx.comments])}</td>
-        </tr>`;
+      html += `<tr>
+        <td class="col-name">${safe(row[idx.name])}</td>
+        <td>${badgeConn(row[idx.conn], false)}</td>
+        <td><span class="badge badge-slate">${safe(row[idx.cls])}</span></td>
+        <td><span class="badge badge-slate">${safe(row[idx.freq])}</span></td>
+        <td class="col-comments">${safe(row[idx.notes])}</td>
+      </tr>`;
     });
   }
-  html += `</tbody></table>`;
-  return html;
+  return html + `</tbody></table>`;
 }
 
-/* ── CALCULATIONS SECTION ────────────────────────────── */
 function renderCalculations(sheet) {
   if (!sheet) return `<p style="color:#777;font-style:italic;">No Calculations tab found.</p>`;
   const { headers, rows } = sheetToRows(sheet);
-
+  const h = headers.map(x => x.toLowerCase().replace(/[^a-z]/g,''));
+  const idx = {
+    name:    colIdx(h,['name','calc'],0),
+    formula: colIdx(h,['formula','expression','logic'],1),
+    notes:   colIdx(h,['comment','note','desc'],2),
+  };
   let html = `
-    <table class="report-table">
-      <thead>
-        <tr>
-          <th style="width:24%">Calculation Name</th>
-          <th style="width:38%">Formula</th>
-          <th>Comments</th>
-        </tr>
-      </thead>
-      <tbody>`;
-
+    <table class="report-table"><thead><tr>
+      <th style="width:16%">Name</th>
+      <th style="width:55%">Formula</th>
+      <th>Comments</th>
+    </tr></thead><tbody>`;
   if (!rows.length) {
-    html += `<tr class="empty-row"><td colspan="3">No calculation records found</td></tr>`;
+    html += `<tr class="empty-row"><td colspan="3">No records found</td></tr>`;
   } else {
-    const h = headers.map(x => x.toLowerCase().replace(/[^a-z]/g, ''));
-    const idx = {
-      name:     h.findIndex(x => x.includes('name') || x.includes('calc')),
-      formula:  h.findIndex(x => x.includes('formula') || x.includes('expression') || x.includes('logic')),
-      comments: h.findIndex(x => x.includes('comment') || x.includes('note') || x.includes('desc')),
-    };
-    if (idx.name < 0)     idx.name = 0;
-    if (idx.formula < 0)  idx.formula = 1;
-    if (idx.comments < 0) idx.comments = 2;
-
     rows.forEach(row => {
-      html += `
-        <tr>
-          <td class="col-name">${safe(row[idx.name])}</td>
-          <td class="mono">${highlightBrackets(row[idx.formula])}</td>
-          <td class="col-comments">${safe(row[idx.comments])}</td>
-        </tr>`;
+      html += `<tr>
+        <td class="col-name">${safe(row[idx.name])}</td>
+        <td class="mono">${highlightBrackets(row[idx.formula], false)}</td>
+        <td class="col-comments">${safe(row[idx.notes])}</td>
+      </tr>`;
     });
   }
-  html += `</tbody></table>`;
-  return html;
+  return html + `</tbody></table>`;
 }
 
-/* ── CHANGELOG SECTION ───────────────────────────────── */
 function renderChangelog(sheet) {
   if (!sheet) return `<p style="color:#777;font-style:italic;">No Change Log tab found.</p>`;
   const { headers, rows } = sheetToRows(sheet);
-  if (!rows.length) return `<p style="color:#777;font-style:italic;">No change log records found.</p>`;
-
-  const h = headers.map(x => x.toLowerCase().replace(/[^a-z]/g, ''));
+  if (!rows.length) return `<p style="color:#777;font-style:italic;">No records found.</p>`;
+  const h = headers.map(x => x.toLowerCase().replace(/[^a-z]/g,''));
   const idx = {
-    dashboard: h.findIndex(x => x.includes('dashboard') || x.includes('report') || x.includes('name')),
-    date:      h.findIndex(x => x.includes('date') || x.includes('time')),
-    type:      h.findIndex(x => x.includes('type') || x.includes('category') || x.includes('change')),
-    comments:  h.findIndex(x => x.includes('comment') || x.includes('note') || x.includes('desc')),
+    dashboard: colIdx(h,['dashboard','report','name'],0),
+    date:      colIdx(h,['date','time'],1),
+    type:      colIdx(h,['type','category','change'],2),
+    notes:     colIdx(h,['comment','note','desc'],3),
   };
-  if (idx.dashboard < 0) idx.dashboard = 0;
-  if (idx.date < 0)      idx.date = 1;
-  if (idx.type < 0)      idx.type = 2;
-  if (idx.comments < 0)  idx.comments = 3;
-
   let html = '';
   rows.forEach(row => {
     let dateVal = row[idx.date];
     if (typeof dateVal === 'number') {
       const d = new Date(Math.round((dateVal - 25569) * 86400 * 1000));
-      dateVal = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-    } else if (dateVal) {
-      dateVal = String(dateVal);
-    }
+      dateVal = d.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+    } else { dateVal = String(dateVal || ''); }
     html += `
       <div class="changelog-entry">
         <div class="cl-header">
           <span class="cl-dashboard">${safe(row[idx.dashboard])}</span>
           <span class="cl-date">${safe(dateVal)}</span>
-          ${badgeType(row[idx.type])}
+          ${badgeType(row[idx.type], false)}
         </div>
-        <div class="cl-comment">${safe(row[idx.comments])}</div>
+        <div class="cl-comment">${safe(row[idx.notes])}</div>
       </div>`;
   });
   return html;
 }
 
-/* ── BUILD FULL REPORT HTML ──────────────────────────── */
+/* ── Build PDF report HTML ───────────────────────────── */
 function buildReport(wb, filename) {
   const sheetSummary   = findSheet(wb, ['summary']);
   const sheetData      = findSheet(wb, ['datasource','data source','data']);
@@ -877,16 +529,15 @@ function buildReport(wb, filename) {
   setPill('pill-calculations', !!sheetCalc);
   setPill('pill-changelog',    !!sheetChangelog);
 
-  let dashName = 'Dashboard';
-  let developer = '—';
+  let dashName = 'Dashboard', developer = '—';
   if (sheetSummary) {
     const { rows, headers } = sheetToRows(sheetSummary);
     if (rows.length) {
-      const h = headers.map(x => x.toLowerCase().replace(/[^a-z]/g, ''));
-      const ni = h.findIndex(x => x.includes('name') || x.includes('dashboard'));
-      const di = h.findIndex(x => x.includes('developer') || x.includes('dev') || x.includes('author'));
-      if (rows[0][ni >= 0 ? ni : 0]) dashName  = rows[0][ni >= 0 ? ni : 0];
-      if (rows[0][di >= 0 ? di : 2]) developer = rows[0][di >= 0 ? di : 2];
+      const h = headers.map(x => x.toLowerCase().replace(/[^a-z]/g,''));
+      const ni = colIdx(h,['name','dashboard'],0);
+      const di = colIdx(h,['developer','dev','author'],2);
+      if (rows[0][ni]) dashName  = rows[0][ni];
+      if (rows[0][di]) developer = rows[0][di];
     }
   }
 
@@ -896,12 +547,10 @@ function buildReport(wb, filename) {
 
   return `
   <div class="cover-page">
-    <div class="cover-accent-bar"></div>
-    <div class="cover-grid"></div>
     <div class="cover-body">
       <div>
         <div class="cover-tag">Documentation Report</div>
-        <h1 class="cover-title">${safe(dashName)}<br><span>Technical Spec</span></h1>
+        <h1 class="cover-title">${safe(dashName)}<span>Tableau Documentation</span></h1>
         <div class="cover-subtitle">Auto-generated from workbook data</div>
         <div class="cover-divider"></div>
         <div class="cover-meta-grid">
@@ -925,93 +574,267 @@ function buildReport(wb, filename) {
       <div class="title-bar"></div>
     </div>
     <div class="toc-entries">
-      <div class="toc-entry">
-        <span class="toc-num">01</span>
-        <span class="toc-name">Summary<span class="toc-desc">Dashboard overview, developer, and user information</span></span>
-        <span class="toc-dots"></span><span class="toc-pg">3</span>
-      </div>
-      <div class="toc-entry">
-        <span class="toc-num">02</span>
-        <span class="toc-name">Data Sources<span class="toc-desc">Connected data sources, types, and refresh schedules</span></span>
-        <span class="toc-dots"></span><span class="toc-pg">4</span>
-      </div>
-      <div class="toc-entry">
-        <span class="toc-num">03</span>
-        <span class="toc-name">Calculations<span class="toc-desc">Formulas, business logic, and calculation definitions</span></span>
-        <span class="toc-dots"></span><span class="toc-pg">5</span>
-      </div>
-      <div class="toc-entry">
-        <span class="toc-num">04</span>
-        <span class="toc-name">Change Log<span class="toc-desc">Revision history, updates, and modifications</span></span>
-        <span class="toc-dots"></span><span class="toc-pg">6</span>
-      </div>
+      <div class="toc-entry"><span class="toc-num">01</span><span class="toc-name">Summary<span class="toc-desc">Dashboard overview, developer, and user information</span></span><span class="toc-dots"></span><span class="toc-pg">3</span></div>
+      <div class="toc-entry"><span class="toc-num">02</span><span class="toc-name">Data Sources<span class="toc-desc">Connected data sources, types, and refresh schedules</span></span><span class="toc-dots"></span><span class="toc-pg">4</span></div>
+      <div class="toc-entry"><span class="toc-num">03</span><span class="toc-name">Calculations<span class="toc-desc">Formulas, business logic, and calculation definitions</span></span><span class="toc-dots"></span><span class="toc-pg">5</span></div>
+      <div class="toc-entry"><span class="toc-num">04</span><span class="toc-name">Change Log<span class="toc-desc">Revision history, updates, and modifications</span></span><span class="toc-dots"></span><span class="toc-pg">6</span></div>
     </div>
   </div>
 
   <div class="content-section">
-    <div class="section-header">
-      <div class="section-eyebrow">01 — Summary</div>
-      <h2 class="section-title">Dashboard Overview</h2>
-      <div class="title-bar"></div>
-    </div>
+    <div class="section-header"><div class="section-eyebrow">01 — Summary</div><h2 class="section-title">Dashboard Overview</h2><div class="title-bar"></div></div>
     ${renderSummary(sheetSummary)}
-    <div class="page-footer">
-      <span class="footer-brand">Dashboard Docs</span>
-      <span class="footer-tag">Generated ${getDate()} · Confidential</span>
-    </div>
   </div>
 
   <div class="content-section">
-    <div class="section-header">
-      <div class="section-eyebrow">02 — Data Sources</div>
-      <h2 class="section-title">Data Sources <span class="count-badge">${countData}</span></h2>
-      <div class="title-bar"></div>
-    </div>
+    <div class="section-header"><div class="section-eyebrow">02 — Data Sources</div><h2 class="section-title">Data Sources <span class="count-badge">${countData}</span></h2><div class="title-bar"></div></div>
     ${renderDataSource(sheetData)}
-    <div class="page-footer">
-      <span class="footer-brand">Dashboard Docs</span>
-      <span class="footer-tag">Generated ${getDate()} · Confidential</span>
-    </div>
   </div>
 
   <div class="content-section">
-    <div class="section-header">
-      <div class="section-eyebrow">03 — Calculations</div>
-      <h2 class="section-title">Calculations <span class="count-badge">${countCalc}</span></h2>
-      <div class="title-bar"></div>
-    </div>
+    <div class="section-header"><div class="section-eyebrow">03 — Calculations</div><h2 class="section-title">Calculations <span class="count-badge">${countCalc}</span></h2><div class="title-bar"></div></div>
     ${renderCalculations(sheetCalc)}
-    <div class="page-footer">
-      <span class="footer-brand">Dashboard Docs</span>
-      <span class="footer-tag">Generated ${getDate()} · Confidential</span>
-    </div>
   </div>
 
   <div class="content-section">
-    <div class="section-header">
-      <div class="section-eyebrow">04 — Change Log</div>
-      <h2 class="section-title">Change Log <span class="count-badge">${countLog}</span></h2>
-      <div class="title-bar"></div>
-    </div>
+    <div class="section-header"><div class="section-eyebrow">04 — Change Log</div><h2 class="section-title">Change Log <span class="count-badge">${countLog}</span></h2><div class="title-bar"></div></div>
     ${renderChangelog(sheetChangelog)}
-    <div class="page-footer">
-      <span class="footer-brand">Dashboard Docs</span>
-      <span class="footer-tag">Generated ${getDate()} · Confidential</span>
-    </div>
-  </div>
-  `;
+  </div>`;
 }
 
-/* ── FILE HANDLER ────────────────────────────────────── */
+/* ── Word export ─────────────────────────────────────── */
+function exportWord() {
+  if (!lastWb) return;
+  const wb = lastWb;
+  const sheetSummary   = findSheet(wb, ['summary']);
+  const sheetData      = findSheet(wb, ['datasource','data source','data']);
+  const sheetCalc      = findSheet(wb, ['calculation','calc']);
+  const sheetChangelog = findSheet(wb, ['changelog','change log','change','log']);
+
+  let dashName = 'Dashboard', developer = '—';
+  if (sheetSummary) {
+    const { rows, headers } = sheetToRows(sheetSummary);
+    if (rows.length) {
+      const h = headers.map(x => x.toLowerCase().replace(/[^a-z]/g,''));
+      const ni = colIdx(h,['name','dashboard'],0);
+      const di = colIdx(h,['developer','dev','author'],2);
+      if (rows[0][ni]) dashName  = rows[0][ni];
+      if (rows[0][di]) developer = rows[0][di];
+    }
+  }
+
+  /* shared inline styles */
+  const TH = `padding:10px 14px;background:#111111;color:#ffffff;text-align:left;font-size:9pt;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;`;
+  const TD = `padding:10px 14px;border-bottom:1px solid #e0e0e0;color:#111111;vertical-align:top;line-height:1.5;`;
+  const TD_EVEN = TD + `background:#f8f8f8;`;
+  const TD_MONO = TD + `font-family:'Courier New',Courier,monospace;font-size:9pt;background:#f4f4f4;`;
+
+  function wordThead(cols) {
+    return `<tr>${cols.map(([label, w]) => `<th style="${TH}${w?'width:'+w+';':''}">${label}</th>`).join('')}</tr>`;
+  }
+  function wordTd(content, even, mono) {
+    return `<td style="${mono ? TD_MONO : (even ? TD_EVEN : TD)}">${content}</td>`;
+  }
+
+  /* Summary */
+  let summaryHtml = '';
+  if (sheetSummary) {
+    const { headers, rows } = sheetToRows(sheetSummary);
+    const h = headers.map(x => x.toLowerCase().replace(/[^a-z]/g,''));
+    rows.forEach(row => {
+      const name    = safe(row[colIdx(h,['dashboardname','name'],0)]);
+      const summary = safe(row[colIdx(h,['summary','description'],1)]);
+      const dev     = safe(row[colIdx(h,['developer','dev','author'],2)]);
+      const users   = safe(row[colIdx(h,['mainusers','users','owner'],3)]);
+      const card = (label, val) => `
+        <tr>
+          <td style="padding:10px 14px;font-size:9pt;color:#555555;font-weight:600;text-transform:uppercase;letter-spacing:1px;width:140px;border-bottom:1px solid #e0e0e0;">${label}</td>
+          <td style="padding:10px 14px;color:#111111;border-bottom:1px solid #e0e0e0;">${val}</td>
+        </tr>`;
+      summaryHtml += `
+        <table style="width:100%;border-collapse:collapse;margin-bottom:24px;border:1px solid #e0e0e0;">
+          ${card('Dashboard Name', name)}
+          ${card('Developer', dev)}
+          ${card('Overview', summary)}
+          ${card('Main Users', users)}
+        </table>`;
+    });
+  } else {
+    summaryHtml = '<p style="color:#777;font-style:italic;">No Summary tab found.</p>';
+  }
+
+  /* Data Sources */
+  let dataHtml = '';
+  if (sheetData) {
+    const { headers, rows } = sheetToRows(sheetData);
+    const h = headers.map(x => x.toLowerCase().replace(/[^a-z]/g,''));
+    const idx = {
+      name: colIdx(h,['name','source'],0), conn: colIdx(h,['connection','type','conn'],1),
+      cls:  colIdx(h,['classif'],2),       freq: colIdx(h,['freq','update','refresh'],3),
+      notes:colIdx(h,['comment','note','desc'],4),
+    };
+    dataHtml = `<table style="width:100%;border-collapse:collapse;"><thead>
+      ${wordThead([['Data Source','20%'],['Connection','15%'],['Classification','14%'],['Frequency','14%'],['Comments','']])}
+    </thead><tbody>`;
+    rows.forEach((row, i) => {
+      const even = i % 2 === 1;
+      dataHtml += `<tr>
+        ${wordTd(`<strong>${safe(row[idx.name])}</strong>`, even)}
+        ${wordTd(badgeConn(row[idx.conn], true), even)}
+        ${wordTd(safe(row[idx.cls]), even)}
+        ${wordTd(safe(row[idx.freq]), even)}
+        ${wordTd(`<em style="color:#555;">${safe(row[idx.notes])}</em>`, even)}
+      </tr>`;
+    });
+    dataHtml += `</tbody></table>`;
+  } else {
+    dataHtml = '<p style="color:#777;font-style:italic;">No Data Source tab found.</p>';
+  }
+
+  /* Calculations */
+  let calcHtml = '';
+  if (sheetCalc) {
+    const { headers, rows } = sheetToRows(sheetCalc);
+    const h = headers.map(x => x.toLowerCase().replace(/[^a-z]/g,''));
+    const idx = {
+      name:    colIdx(h,['name','calc'],0),
+      formula: colIdx(h,['formula','expression','logic'],1),
+      notes:   colIdx(h,['comment','note','desc'],2),
+    };
+    calcHtml = `<table style="width:100%;border-collapse:collapse;"><thead>
+      ${wordThead([['Name','18%'],['Formula','52%'],['Comments','']])}
+    </thead><tbody>`;
+    rows.forEach((row, i) => {
+      const even = i % 2 === 1;
+      calcHtml += `<tr>
+        ${wordTd(`<strong>${safe(row[idx.name])}</strong>`, even)}
+        ${wordTd(highlightBrackets(row[idx.formula], true), even, true)}
+        ${wordTd(`<em style="color:#555;">${safe(row[idx.notes])}</em>`, even)}
+      </tr>`;
+    });
+    calcHtml += `</tbody></table>`;
+  } else {
+    calcHtml = '<p style="color:#777;font-style:italic;">No Calculations tab found.</p>';
+  }
+
+  /* Changelog */
+  let logHtml = '';
+  if (sheetChangelog) {
+    const { headers, rows } = sheetToRows(sheetChangelog);
+    const h = headers.map(x => x.toLowerCase().replace(/[^a-z]/g,''));
+    const idx = {
+      dashboard: colIdx(h,['dashboard','report','name'],0),
+      date:      colIdx(h,['date','time'],1),
+      type:      colIdx(h,['type','category','change'],2),
+      notes:     colIdx(h,['comment','note','desc'],3),
+    };
+    logHtml = `<table style="width:100%;border-collapse:collapse;"><thead>
+      ${wordThead([['Dashboard','20%'],['Date','14%'],['Type','14%'],['Description','']])}
+    </thead><tbody>`;
+    rows.forEach((row, i) => {
+      const even = i % 2 === 1;
+      let dateVal = row[idx.date];
+      if (typeof dateVal === 'number') {
+        const d = new Date(Math.round((dateVal - 25569) * 86400 * 1000));
+        dateVal = d.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+      } else { dateVal = String(dateVal || ''); }
+      logHtml += `<tr>
+        ${wordTd(`<strong>${safe(row[idx.dashboard])}</strong>`, even)}
+        ${wordTd(`<span style="font-family:'Courier New';font-size:9pt;">${safe(dateVal)}</span>`, even)}
+        ${wordTd(badgeType(row[idx.type], true), even)}
+        ${wordTd(`<em style="color:#555;">${safe(row[idx.notes])}</em>`, even)}
+      </tr>`;
+    });
+    logHtml += `</tbody></table>`;
+  } else {
+    logHtml = '<p style="color:#777;font-style:italic;">No Change Log tab found.</p>';
+  }
+
+  function wordSection(num, label, title, content) {
+    return `
+      <div style="margin-bottom:40px;">
+        <p style="font-family:'Courier New',Courier,monospace;font-size:9pt;color:#555555;letter-spacing:2px;text-transform:uppercase;margin:0 0 4px;">${num} — ${label}</p>
+        <h2 style="font-family:Georgia,serif;font-size:20pt;font-weight:700;color:#111111;margin:0 0 8px;padding-bottom:12px;border-bottom:3px solid #111111;">${title}</h2>
+        ${content}
+      </div>
+      <br style="page-break-before:always">`;
+  }
+
+  const wordDoc = `
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+      xmlns:w="urn:schemas-microsoft-com:office:word"
+      xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta charset="utf-8">
+<title>${safe(dashName)} — Tableau Documentation</title>
+<!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>90</w:Zoom><w:DoNotOptimizeForBrowser/></w:WordDocument></xml><![endif]-->
+<style>
+  body { font-family: Calibri, Arial, sans-serif; font-size: 11pt; color: #111111; margin: 72pt 72pt 72pt 72pt; }
+  h1   { font-family: Georgia, serif; font-size: 32pt; font-weight: 700; color: #111111; line-height: 1.1; }
+  p    { margin: 0 0 8pt; }
+  table { border-collapse: collapse; width: 100%; }
+  .field-ref { color: #f97316; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div style="border-top:6px solid #111111;padding-top:48pt;padding-bottom:48pt;margin-bottom:48pt;border-bottom:1px solid #e0e0e0;">
+  <p style="font-family:'Courier New',Courier,monospace;font-size:9pt;color:#666666;letter-spacing:2px;text-transform:uppercase;margin-bottom:12pt;">Documentation Report</p>
+  <h1 style="font-family:Georgia,serif;font-size:36pt;font-weight:700;color:#111111;margin:0 0 8pt;">${safe(dashName)}</h1>
+  <h2 style="font-family:Georgia,serif;font-size:22pt;font-weight:400;color:#555555;margin:0 0 24pt;border:none;">Tableau Documentation</h2>
+  <table style="width:400pt;border-collapse:collapse;margin-top:16pt;">
+    <tr>
+      <td style="padding:8pt 16pt 8pt 0;border-right:1px solid #e0e0e0;width:50%;">
+        <p style="font-size:8pt;color:#555;text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:4pt;">Developer</p>
+        <p style="font-size:12pt;color:#111;font-weight:500;margin:0;">${safe(developer)}</p>
+      </td>
+      <td style="padding:8pt 0 8pt 16pt;width:50%;">
+        <p style="font-size:8pt;color:#555;text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:4pt;">Generated</p>
+        <p style="font-size:12pt;color:#111;font-weight:500;margin:0;">${getDate()}</p>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<br style="page-break-before:always">
+
+${wordSection('01','Summary','Dashboard Overview', summaryHtml)}
+${wordSection('02','Data Sources','Data Sources', dataHtml)}
+${wordSection('03','Calculations','Calculations', calcHtml)}
+<div style="margin-bottom:40px;">
+  <p style="font-family:'Courier New',Courier,monospace;font-size:9pt;color:#555555;letter-spacing:2px;text-transform:uppercase;margin:0 0 4px;">04 — Change Log</p>
+  <h2 style="font-family:Georgia,serif;font-size:20pt;font-weight:700;color:#111111;margin:0 0 8px;padding-bottom:12px;border-bottom:3px solid #111111;">Change Log</h2>
+  ${logHtml}
+</div>
+
+</body>
+</html>`;
+
+  const blob = new Blob(['﻿', wordDoc], { type: 'application/msword' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = lastFilename.replace(/\.[^.]+$/, '') + '_report.doc';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* ── File handler ────────────────────────────────────── */
 function handleFile(file) {
   if (!file) return;
   const reader = new FileReader();
   reader.onload = e => {
     try {
       const data = new Uint8Array(e.target.result);
-      const wb = XLSX.read(data, { type: 'array', cellDates: true });
+      const wb   = XLSX.read(data, { type:'array', cellDates:true });
 
-      const reportEl = $('report');
+      lastWb       = wb;
+      lastFilename = file.name;
+
+      const reportEl   = $('report');
       reportEl.innerHTML = buildReport(wb, file.name);
       reportEl.classList.add('visible');
 
@@ -1019,35 +842,36 @@ function handleFile(file) {
       $('statusBar').classList.add('show');
       $('actionsBar').classList.add('show');
       $('previewWrapper').style.display = 'block';
-      $('previewWrapper').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      $('previewWrapper').scrollIntoView({ behavior:'smooth', block:'start' });
     } catch (err) {
-      alert('Could not parse Excel file. Please ensure it is a valid .xlsx workbook.\n\n' + err.message);
+      alert('Could not parse file.\n\n' + err.message);
     }
   };
   reader.readAsArrayBuffer(file);
 }
 
-/* ── PRINT ───────────────────────────────────────────── */
+/* ── Print (PDF) ─────────────────────────────────────── */
 function printReport() {
   const clone = $('report').cloneNode(true);
   clone.id = 'print-report';
   clone.style.display = 'block';
   document.body.appendChild(clone);
 
-  const style = document.createElement('style');
-  style.id = 'print-override';
-  style.textContent = `@media print { body > *:not(#print-report) { display: none !important; } #print-report { display: block !important; } }`;
-  document.head.appendChild(style);
+  const s = document.createElement('style');
+  s.id = 'print-override';
+  s.textContent = `@media print { body > *:not(#print-report) { display:none!important; } #print-report { display:block!important; } }`;
+  document.head.appendChild(s);
 
   window.print();
   setTimeout(() => {
     document.body.removeChild(clone);
-    document.head.removeChild(style);
+    document.head.removeChild(s);
   }, 1000);
 }
 
-/* ── CLEAR ───────────────────────────────────────────── */
+/* ── Clear ───────────────────────────────────────────── */
 function clearReport() {
+  lastWb = null; lastFilename = '';
   $('report').innerHTML = '';
   $('report').classList.remove('visible');
   $('statusBar').classList.remove('show');
@@ -1055,13 +879,13 @@ function clearReport() {
   $('previewWrapper').style.display = 'none';
   $('fileInput').value = '';
   ['pill-summary','pill-datasource','pill-calculations','pill-changelog'].forEach(id => $(id).classList.remove('found'));
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({ top:0, behavior:'smooth' });
 }
 
-/* ── DRAG & DROP ─────────────────────────────────────── */
+/* ── Drag & drop ─────────────────────────────────────── */
 const dropArea = $('dropArea');
-dropArea.addEventListener('dragover', e => { e.preventDefault(); dropArea.classList.add('drag-over'); });
-dropArea.addEventListener('dragleave', () => dropArea.classList.remove('drag-over'));
+dropArea.addEventListener('dragover',  e => { e.preventDefault(); dropArea.classList.add('drag-over'); });
+dropArea.addEventListener('dragleave', ()  => dropArea.classList.remove('drag-over'));
 dropArea.addEventListener('drop', e => {
   e.preventDefault();
   dropArea.classList.remove('drag-over');
