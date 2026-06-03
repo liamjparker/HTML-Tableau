@@ -5,24 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard Documentation Report Generator</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
   /* ── VARIABLES ──────────────────────────────────────────── */
   :root {
-    --navy:    #0d1b2e;
-    --navy2:   #162338;
-    --slate:   #1e2f46;
-    --gold:    #c8a96e;
-    --gold2:   #e0c88a;
-    --cream:   #f7f4ef;
-    --white:   #ffffff;
-    --muted:   #8a9bb0;
-    --border:  #2a3f5c;
-    --text:    #d4dde8;
+    --bg:      #111111;
+    --surface: #1a1a1a;
+    --surface2:#242424;
+    --accent:  #ffffff;
+    --muted:   #888888;
+    --border:  #333333;
+    --text:    #d0d0d0;
     --success: #4caf82;
     --radius:  8px;
-    --shadow:  0 4px 24px rgba(0,0,0,0.35);
+    --shadow:  0 4px 24px rgba(0,0,0,0.5);
+    --serif:   Georgia, 'Times New Roman', serif;
+    --sans:    -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    --mono:    'Courier New', Courier, monospace;
   }
 
   /* ── RESET ──────────────────────────────────────────────── */
@@ -31,16 +30,16 @@
   /* ── APP SHELL (screen only) ────────────────────────────── */
   @media screen {
     body {
-      background: var(--navy);
+      background: var(--bg);
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--sans);
       font-size: 14px;
       line-height: 1.6;
       min-height: 100vh;
     }
 
     .app-header {
-      background: linear-gradient(135deg, var(--navy2) 0%, var(--slate) 100%);
+      background: var(--surface);
       border-bottom: 1px solid var(--border);
       padding: 32px 48px;
       display: flex;
@@ -49,18 +48,18 @@
     }
     .app-header .logo-mark {
       width: 48px; height: 48px;
-      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      background: #ffffff;
       border-radius: 12px;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
-      font-family: 'Playfair Display', serif;
+      font-family: var(--serif);
       font-size: 22px; font-weight: 700;
-      color: var(--navy);
+      color: #111111;
     }
     .app-header h1 {
-      font-family: 'Playfair Display', serif;
+      font-family: var(--serif);
       font-size: 22px; font-weight: 600;
-      color: var(--white);
+      color: #ffffff;
       letter-spacing: -0.3px;
     }
     .app-header p {
@@ -76,7 +75,7 @@
     .drop-area {
       border: 2px dashed var(--border);
       border-radius: 16px;
-      background: var(--navy2);
+      background: var(--surface);
       padding: 60px 40px;
       text-align: center;
       cursor: pointer;
@@ -84,32 +83,32 @@
       position: relative;
     }
     .drop-area:hover, .drop-area.drag-over {
-      border-color: var(--gold);
-      background: rgba(200,169,110,0.06);
+      border-color: #ffffff;
+      background: rgba(255,255,255,0.04);
     }
     .drop-area input[type="file"] {
       position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
     }
     .drop-icon {
       width: 56px; height: 56px;
-      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      background: #ffffff;
       border-radius: 14px;
       margin: 0 auto 20px;
       display: flex; align-items: center; justify-content: center;
     }
-    .drop-icon svg { width: 26px; height: 26px; color: var(--navy); fill: none; stroke: currentColor; stroke-width: 2; }
+    .drop-icon svg { width: 26px; height: 26px; color: #111111; fill: none; stroke: currentColor; stroke-width: 2; }
     .drop-area h2 {
-      font-family: 'Playfair Display', serif;
+      font-family: var(--serif);
       font-size: 20px; font-weight: 600;
-      color: var(--white); margin-bottom: 8px;
+      color: #ffffff; margin-bottom: 8px;
     }
     .drop-area p { color: var(--muted); font-size: 13px; }
     .drop-area .format-badge {
       display: inline-block; margin-top: 16px;
-      background: rgba(200,169,110,0.12);
-      border: 1px solid rgba(200,169,110,0.3);
-      color: var(--gold);
-      font-family: 'DM Mono', monospace;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #cccccc;
+      font-family: var(--mono);
       font-size: 11px; padding: 4px 12px; border-radius: 100px;
     }
 
@@ -119,12 +118,12 @@
     }
     .tab-pill {
       display: flex; align-items: center; gap: 6px;
-      background: var(--navy2); border: 1px solid var(--border);
+      background: var(--surface); border: 1px solid var(--border);
       border-radius: 100px; padding: 6px 14px;
       font-size: 12px; color: var(--muted);
     }
     .tab-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); }
-    .tab-pill.found { border-color: rgba(76,175,130,0.4); color: var(--success); }
+    .tab-pill.found { border-color: rgba(76,175,130,0.5); color: var(--success); }
     .tab-pill.found .dot { background: var(--success); }
 
     /* ── STATUS ──────────────────────────────────────────── */
@@ -150,16 +149,16 @@
     .actions.show { display: flex; gap: 12px; }
     .btn {
       padding: 12px 28px; border-radius: var(--radius);
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--sans);
       font-size: 14px; font-weight: 500;
       border: none; cursor: pointer; transition: all 0.2s ease;
       display: flex; align-items: center; gap: 8px;
     }
     .btn-primary {
-      background: linear-gradient(135deg, var(--gold), var(--gold2));
-      color: var(--navy); font-weight: 600;
+      background: #ffffff;
+      color: #111111; font-weight: 600;
     }
-    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(200,169,110,0.35); }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,255,255,0.15); }
     .btn-ghost {
       background: transparent; color: var(--muted);
       border: 1px solid var(--border);
@@ -173,9 +172,10 @@
     .preview-label {
       font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
       color: var(--muted); text-transform: uppercase; margin-bottom: 12px;
+      font-family: var(--mono);
     }
     .preview-frame {
-      background: #e8e4dc;
+      background: #cccccc;
       border-radius: 12px;
       padding: 24px;
       box-shadow: var(--shadow);
@@ -184,20 +184,19 @@
 
   /* ---------------------------------------------------------
      PDF / PRINT DOCUMENT STYLES
-     Everything inside #report renders as the PDF
   --------------------------------------------------------- */
 
   #report {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--sans);
     font-size: 11pt;
     line-height: 1.6;
-    color: #1a2535;
+    color: #111111;
     background: #fff;
   }
 
   /* ── COVER PAGE ──────────────────────────────────────── */
   .cover-page {
-    background: #0d1b2e;
+    background: #111111;
     min-height: 297mm;
     padding: 0;
     display: flex;
@@ -208,13 +207,13 @@
   }
   .cover-accent-bar {
     height: 6px;
-    background: linear-gradient(90deg, #c8a96e, #e0c88a, #c8a96e);
+    background: #ffffff;
   }
   .cover-grid {
     position: absolute; inset: 0;
     background-image:
-      linear-gradient(rgba(200,169,110,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(200,169,110,0.03) 1px, transparent 1px);
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
     background-size: 32px 32px;
   }
   .cover-body {
@@ -227,14 +226,14 @@
     z-index: 1;
   }
   .cover-tag {
-    font-family: 'DM Mono', monospace;
+    font-family: var(--mono);
     font-size: 10pt;
-    color: #c8a96e;
+    color: #999999;
     letter-spacing: 2px;
     text-transform: uppercase;
   }
   .cover-title {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--serif);
     font-size: 42pt;
     font-weight: 700;
     color: #ffffff;
@@ -243,16 +242,16 @@
     margin-top: 16px;
     max-width: 480px;
   }
-  .cover-title span { color: #c8a96e; }
+  .cover-title span { color: #cccccc; }
   .cover-subtitle {
     font-size: 13pt;
-    color: #8a9bb0;
+    color: #777777;
     margin-top: 16px;
     font-weight: 300;
   }
   .cover-divider {
     width: 64px; height: 2px;
-    background: linear-gradient(90deg, #c8a96e, transparent);
+    background: #ffffff;
     margin: 32px 0;
   }
   .cover-meta-grid {
@@ -264,7 +263,7 @@
   .cover-meta-item label {
     display: block;
     font-size: 9pt;
-    color: #c8a96e;
+    color: #888888;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     font-weight: 600;
@@ -273,26 +272,26 @@
   .cover-meta-item span {
     display: block;
     font-size: 12pt;
-    color: #d4dde8;
+    color: #dddddd;
     font-weight: 400;
   }
   .cover-footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-top: 1px solid rgba(200,169,110,0.2);
+    border-top: 1px solid rgba(255,255,255,0.15);
     padding-top: 24px;
   }
   .cover-footer-logo {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--serif);
     font-size: 13pt;
-    color: rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.25);
     letter-spacing: 1px;
   }
   .cover-date {
-    font-family: 'DM Mono', monospace;
+    font-family: var(--mono);
     font-size: 9pt;
-    color: rgba(138,155,176,0.6);
+    color: rgba(255,255,255,0.25);
   }
 
   /* ── TOC PAGE ────────────────────────────────────────── */
@@ -301,71 +300,67 @@
     page-break-after: always;
     background: #fff;
   }
-  .toc-header {
-    margin-bottom: 40px;
-  }
+  .toc-header { margin-bottom: 40px; }
   .section-eyebrow {
-    font-family: 'DM Mono', monospace;
+    font-family: var(--mono);
     font-size: 9pt;
-    color: #c8a96e;
+    color: #555555;
     letter-spacing: 2px;
     text-transform: uppercase;
     margin-bottom: 8px;
   }
   .section-title {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--serif);
     font-size: 26pt;
     font-weight: 700;
-    color: #0d1b2e;
+    color: #111111;
     letter-spacing: -0.5px;
   }
   .title-bar {
     width: 48px; height: 3px;
-    background: linear-gradient(90deg, #c8a96e, #e0c88a);
+    background: #111111;
     margin-top: 12px; border-radius: 2px;
   }
   .toc-entries { margin-top: 32px; }
   .toc-entry {
     display: flex;
     align-items: baseline;
-    gap: 0;
     padding: 12px 0;
-    border-bottom: 1px solid #f0ebe3;
+    border-bottom: 1px solid #e8e8e8;
   }
   .toc-num {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--serif);
     font-size: 11pt;
-    color: #c8a96e;
+    color: #333333;
     font-weight: 600;
     width: 36px;
     flex-shrink: 0;
   }
   .toc-name {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--sans);
     font-size: 13pt;
-    color: #0d1b2e;
+    color: #111111;
     font-weight: 500;
     flex: 1;
   }
   .toc-desc {
     font-size: 10pt;
-    color: #8a9bb0;
+    color: #777777;
     display: block;
     font-weight: 400;
     margin-top: 2px;
   }
   .toc-dots {
     flex: 1;
-    border-bottom: 1px dotted #c8a96e;
+    border-bottom: 1px dotted #aaaaaa;
     margin: 0 12px;
-    opacity: 0.35;
     min-width: 20px;
     align-self: center;
   }
   .toc-pg {
-    font-family: 'DM Mono', monospace;
+    font-family: var(--mono);
     font-size: 10pt;
-    color: #0d1b2e;
+    color: #111111;
     font-weight: 500;
     flex-shrink: 0;
   }
@@ -381,7 +376,7 @@
   .section-header {
     margin-bottom: 36px;
     padding-bottom: 24px;
-    border-bottom: 2px solid #f0ebe3;
+    border-bottom: 2px solid #e8e8e8;
     position: relative;
   }
   .section-header::after {
@@ -389,7 +384,7 @@
     position: absolute;
     bottom: -2px; left: 0;
     width: 80px; height: 2px;
-    background: linear-gradient(90deg, #c8a96e, #e0c88a);
+    background: #111111;
   }
 
   /* ── SUMMARY CARDS ───────────────────────────────────── */
@@ -400,8 +395,8 @@
     margin-top: 24px;
   }
   .summary-card {
-    background: #f7f4ef;
-    border: 1px solid #e8e0d0;
+    background: #f8f8f8;
+    border: 1px solid #e0e0e0;
     border-radius: 8px;
     padding: 20px 24px;
     position: relative;
@@ -412,15 +407,13 @@
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 3px;
-    background: linear-gradient(90deg, #c8a96e, #e0c88a);
+    background: #111111;
   }
-  .summary-card.full-width {
-    grid-column: 1 / -1;
-  }
+  .summary-card.full-width { grid-column: 1 / -1; }
   .summary-card label {
     display: block;
     font-size: 9pt;
-    color: #c8a96e;
+    color: #555555;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     font-weight: 600;
@@ -428,13 +421,13 @@
   }
   .summary-card .value {
     font-size: 13pt;
-    color: #0d1b2e;
+    color: #111111;
     font-weight: 600;
-    font-family: 'Playfair Display', serif;
+    font-family: var(--serif);
   }
   .summary-card .desc {
     font-size: 10.5pt;
-    color: #4a5568;
+    color: #444444;
     line-height: 1.6;
     margin-top: 4px;
   }
@@ -446,41 +439,34 @@
     margin-top: 24px;
     font-size: 10pt;
   }
-  .report-table thead tr {
-    background: #0d1b2e;
-  }
+  .report-table thead tr { background: #111111; }
   .report-table thead th {
     padding: 12px 16px;
     text-align: left;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--sans);
     font-size: 9pt;
     font-weight: 600;
-    color: #c8a96e;
+    color: #ffffff;
     letter-spacing: 1px;
     text-transform: uppercase;
     border: none;
   }
-  .report-table tbody tr {
-    border-bottom: 1px solid #f0ebe3;
-    transition: background 0.15s;
-  }
-  .report-table tbody tr:nth-child(even) {
-    background: #faf8f5;
-  }
+  .report-table tbody tr { border-bottom: 1px solid #e8e8e8; }
+  .report-table tbody tr:nth-child(even) { background: #f8f8f8; }
   .report-table tbody td {
     padding: 12px 16px;
-    color: #1a2535;
+    color: #111111;
     vertical-align: top;
     line-height: 1.5;
   }
   .report-table tbody td.mono {
-    font-family: 'DM Mono', monospace;
+    font-family: var(--mono);
     font-size: 9pt;
-    color: #2c5282;
-    background: #f0f4ff;
+    color: #222222;
+    background: #f4f4f4;
   }
-  .report-table .col-name { font-weight: 600; color: #0d1b2e; }
-  .report-table .col-comments { color: #64748b; font-style: italic; }
+  .report-table .col-name { font-weight: 600; color: #111111; }
+  .report-table .col-comments { color: #555555; font-style: italic; }
 
   /* ── BADGE / PILLS ───────────────────────────────────── */
   .badge {
@@ -491,15 +477,18 @@
     font-weight: 600;
     letter-spacing: 0.5px;
   }
-  .badge-blue { background: #dbeafe; color: #1d4ed8; }
-  .badge-green { background: #dcfce7; color: #15803d; }
-  .badge-amber { background: #fef3c7; color: #92400e; }
-  .badge-slate { background: #f1f5f9; color: #475569; }
-  .badge-red   { background: #fee2e2; color: #b91c1c; }
+  .badge-blue   { background: #e8e8e8; color: #111111; }
+  .badge-green  { background: #e0e0e0; color: #111111; }
+  .badge-amber  { background: #d8d8d8; color: #111111; }
+  .badge-slate  { background: #f0f0f0; color: #444444; border: 1px solid #dddddd; }
+  .badge-red    { background: #e4e4e4; color: #333333; }
+
+  /* ── FORMULA FIELD HIGHLIGHT ─────────────────────────── */
+  .field-ref { color: #f97316; font-weight: 600; }
 
   /* ── CHANGELOG SPECIFIC ──────────────────────────────── */
   .changelog-entry {
-    border: 1px solid #e8e0d0;
+    border: 1px solid #e0e0e0;
     border-radius: 8px;
     padding: 16px 20px;
     margin-bottom: 12px;
@@ -511,7 +500,7 @@
     position: absolute;
     left: 0; top: 8px; bottom: 8px;
     width: 3px;
-    background: linear-gradient(180deg, #c8a96e, #e0c88a);
+    background: #333333;
     border-radius: 0 2px 2px 0;
   }
   .changelog-entry .cl-header {
@@ -519,42 +508,42 @@
     margin-bottom: 6px;
   }
   .changelog-entry .cl-date {
-    font-family: 'DM Mono', monospace;
-    font-size: 9pt; color: #8a9bb0; font-weight: 500;
+    font-family: var(--mono);
+    font-size: 9pt; color: #777777; font-weight: 500;
   }
   .changelog-entry .cl-dashboard {
-    font-weight: 600; color: #0d1b2e; font-size: 10.5pt;
+    font-weight: 600; color: #111111; font-size: 10.5pt;
   }
   .changelog-entry .cl-comment {
-    font-size: 10pt; color: #4a5568; line-height: 1.5;
+    font-size: 10pt; color: #444444; line-height: 1.5;
   }
 
   /* ── PAGE FOOTER ─────────────────────────────────────── */
   .page-footer {
     margin-top: 40px;
     padding-top: 16px;
-    border-top: 1px solid #e8e0d0;
+    border-top: 1px solid #e0e0e0;
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
   .page-footer .footer-brand {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--serif);
     font-size: 10pt;
-    color: #c8a96e;
+    color: #333333;
     font-weight: 600;
   }
   .page-footer .footer-tag {
-    font-family: 'DM Mono', monospace;
+    font-family: var(--mono);
     font-size: 8pt;
-    color: #b0bec5;
+    color: #aaaaaa;
     letter-spacing: 0.5px;
   }
 
   /* ── EMPTY STATE ─────────────────────────────────────── */
   .empty-row td {
     text-align: center;
-    color: #b0bec5;
+    color: #aaaaaa;
     font-style: italic;
     padding: 24px !important;
   }
@@ -562,10 +551,10 @@
   /* ── COUNT BADGE ─────────────────────────────────────── */
   .count-badge {
     display: inline-flex; align-items: center; justify-content: center;
-    background: rgba(200,169,110,0.15);
-    border: 1px solid rgba(200,169,110,0.3);
-    color: #c8a96e;
-    font-family: 'DM Mono', monospace;
+    background: #eeeeee;
+    border: 1px solid #cccccc;
+    color: #333333;
+    font-family: var(--mono);
     font-size: 9pt; font-weight: 600;
     padding: 3px 10px; border-radius: 100px;
     margin-left: 10px; vertical-align: middle;
@@ -582,10 +571,7 @@
     thead { display: table-header-group; }
     tr { page-break-inside: avoid; }
     .changelog-entry { page-break-inside: avoid; }
-    @page {
-      size: A4;
-      margin: 0;
-    }
+    @page { size: A4; margin: 0; }
   }
 
   /* ── SCREEN: hide report until loaded ───────────────── */
@@ -619,18 +605,10 @@
   </div>
 
   <div class="tab-list" id="tabList">
-    <div class="tab-pill" id="pill-summary">
-      <span class="dot"></span> Summary
-    </div>
-    <div class="tab-pill" id="pill-datasource">
-      <span class="dot"></span> Data Source
-    </div>
-    <div class="tab-pill" id="pill-calculations">
-      <span class="dot"></span> Calculations
-    </div>
-    <div class="tab-pill" id="pill-changelog">
-      <span class="dot"></span> Change Log
-    </div>
+    <div class="tab-pill" id="pill-summary"><span class="dot"></span> Summary</div>
+    <div class="tab-pill" id="pill-datasource"><span class="dot"></span> Data Source</div>
+    <div class="tab-pill" id="pill-calculations"><span class="dot"></span> Calculations</div>
+    <div class="tab-pill" id="pill-changelog"><span class="dot"></span> Change Log</div>
   </div>
 </div>
 
@@ -665,29 +643,37 @@
 /* ── helpers ─────────────────────────────────────────── */
 const $ = id => document.getElementById(id);
 
+function safe(val) {
+  if (val === undefined || val === null || val === '') return '—';
+  return String(val).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* Escape then wrap [FieldName] references in orange spans */
+function highlightBrackets(val) {
+  if (val === undefined || val === null || val === '') return '—';
+  const escaped = String(val)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return escaped.replace(/\[([^\]]*)\]/g, '<span class="field-ref">[$1]</span>');
+}
+
 function badgeType(type) {
   if (!type) return '<span class="badge badge-slate">—</span>';
-  const t = type.toLowerCase();
-  if (t.includes('new') || t.includes('add'))    return `<span class="badge badge-green">${type}</span>`;
-  if (t.includes('fix') || t.includes('bug'))    return `<span class="badge badge-red">${type}</span>`;
-  if (t.includes('update') || t.includes('edit'))return `<span class="badge badge-blue">${type}</span>`;
-  if (t.includes('remove') || t.includes('del')) return `<span class="badge badge-amber">${type}</span>`;
-  return `<span class="badge badge-slate">${type}</span>`;
+  const t = String(type).toLowerCase();
+  if (t.includes('new') || t.includes('add'))     return `<span class="badge badge-green">${safe(type)}</span>`;
+  if (t.includes('fix') || t.includes('bug'))     return `<span class="badge badge-red">${safe(type)}</span>`;
+  if (t.includes('update') || t.includes('edit')) return `<span class="badge badge-blue">${safe(type)}</span>`;
+  if (t.includes('remove') || t.includes('del'))  return `<span class="badge badge-amber">${safe(type)}</span>`;
+  return `<span class="badge badge-slate">${safe(type)}</span>`;
 }
 
 function badgeConn(type) {
   if (!type) return '<span class="badge badge-slate">—</span>';
-  const t = type.toLowerCase();
-  if (t.includes('api'))    return `<span class="badge badge-blue">${type}</span>`;
-  if (t.includes('sql') || t.includes('db') || t.includes('database')) return `<span class="badge badge-green">${type}</span>`;
-  if (t.includes('excel') || t.includes('csv') || t.includes('file'))  return `<span class="badge badge-amber">${type}</span>`;
-  if (t.includes('share') || t.includes('point')) return `<span class="badge badge-slate">${type}</span>`;
-  return `<span class="badge badge-slate">${type}</span>`;
-}
-
-function safe(val) {
-  if (val === undefined || val === null || val === '') return '—';
-  return String(val).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const t = String(type).toLowerCase();
+  if (t.includes('api'))                                                 return `<span class="badge badge-blue">${safe(type)}</span>`;
+  if (t.includes('sql') || t.includes('db') || t.includes('database'))  return `<span class="badge badge-green">${safe(type)}</span>`;
+  if (t.includes('excel') || t.includes('csv') || t.includes('file'))   return `<span class="badge badge-amber">${safe(type)}</span>`;
+  if (t.includes('share') || t.includes('point'))                        return `<span class="badge badge-slate">${safe(type)}</span>`;
+  return `<span class="badge badge-slate">${safe(type)}</span>`;
 }
 
 function getDate() {
@@ -713,23 +699,18 @@ function findSheet(wb, keywords) {
   return null;
 }
 
-/* ── pill ────────────────────────────────────────────── */
 function setPill(id, found) {
-  const el = $(id);
-  if (found) el.classList.add('found');
+  if (found) $(id).classList.add('found');
 }
 
 /* ── SUMMARY SECTION ─────────────────────────────────── */
 function renderSummary(sheet) {
-  if (!sheet) return `<p style="color:#8a9bb0;font-style:italic;">No Summary tab found.</p>`;
+  if (!sheet) return `<p style="color:#777;font-style:italic;">No Summary tab found.</p>`;
   const { headers, rows } = sheetToRows(sheet);
-  if (!rows.length) return `<p style="color:#8a9bb0;font-style:italic;">Summary tab is empty.</p>`;
+  if (!rows.length) return `<p style="color:#777;font-style:italic;">Summary tab is empty.</p>`;
 
   const colMap = {};
-  headers.forEach((h, i) => {
-    const key = h.toLowerCase().replace(/[^a-z]/g, '');
-    colMap[key] = i;
-  });
+  headers.forEach((h, i) => { colMap[h.toLowerCase().replace(/[^a-z]/g, '')] = i; });
 
   let html = '';
   rows.forEach(row => {
@@ -739,24 +720,12 @@ function renderSummary(sheet) {
     const users   = row[colMap['mainusers'] ?? colMap['users'] ?? colMap['owner'] ?? 3] || '';
 
     html += `
-      <div style="margin-bottom: 28px; padding-bottom: 28px; border-bottom: 1px solid #f0ebe3;">
+      <div style="margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid #e8e8e8;">
         <div class="summary-grid">
-          <div class="summary-card">
-            <label>Dashboard Name</label>
-            <div class="value">${safe(name)}</div>
-          </div>
-          <div class="summary-card">
-            <label>Developer</label>
-            <div class="value">${safe(dev)}</div>
-          </div>
-          <div class="summary-card full-width">
-            <label>Overview / Summary</label>
-            <div class="desc">${safe(summary)}</div>
-          </div>
-          <div class="summary-card full-width">
-            <label>Main Users</label>
-            <div class="desc">${safe(users)}</div>
-          </div>
+          <div class="summary-card"><label>Dashboard Name</label><div class="value">${safe(name)}</div></div>
+          <div class="summary-card"><label>Developer</label><div class="value">${safe(dev)}</div></div>
+          <div class="summary-card full-width"><label>Overview / Summary</label><div class="desc">${safe(summary)}</div></div>
+          <div class="summary-card full-width"><label>Main Users</label><div class="desc">${safe(users)}</div></div>
         </div>
       </div>`;
   });
@@ -765,36 +734,46 @@ function renderSummary(sheet) {
 
 /* ── DATA SOURCE SECTION ─────────────────────────────── */
 function renderDataSource(sheet) {
-  if (!sheet) return `<p style="color:#8a9bb0;font-style:italic;">No Data Source tab found.</p>`;
+  if (!sheet) return `<p style="color:#777;font-style:italic;">No Data Source tab found.</p>`;
   const { headers, rows } = sheetToRows(sheet);
 
   let html = `
     <table class="report-table">
       <thead>
         <tr>
-          <th style="width:22%">Data Source Name</th>
-          <th style="width:18%">Connection Type</th>
-          <th style="width:18%">Update Frequency</th>
+          <th style="width:20%">Data Source Name</th>
+          <th style="width:16%">Connection Type</th>
+          <th style="width:16%">Classification</th>
+          <th style="width:16%">Update Frequency</th>
           <th>Comments</th>
         </tr>
       </thead>
       <tbody>`;
 
   if (!rows.length) {
-    html += `<tr class="empty-row"><td colspan="4">No data source records found</td></tr>`;
+    html += `<tr class="empty-row"><td colspan="5">No data source records found</td></tr>`;
   } else {
     const h = headers.map(x => x.toLowerCase().replace(/[^a-z]/g, ''));
     const idx = {
-      name: h.findIndex(x => x.includes('name') || x.includes('source')) ?? 0,
-      conn: h.findIndex(x => x.includes('connection') || x.includes('type') || x.includes('conn')) ?? 1,
-      freq: h.findIndex(x => x.includes('freq') || x.includes('update') || x.includes('refresh')) ?? 2,
-      comments: h.findIndex(x => x.includes('comment') || x.includes('note') || x.includes('desc')) ?? 3,
+      name:           h.findIndex(x => x.includes('name') || x.includes('source')),
+      conn:           h.findIndex(x => x.includes('connection') || x.includes('type') || x.includes('conn')),
+      classification: h.findIndex(x => x.includes('classif')),
+      freq:           h.findIndex(x => x.includes('freq') || x.includes('update') || x.includes('refresh')),
+      comments:       h.findIndex(x => x.includes('comment') || x.includes('note') || x.includes('desc')),
     };
+    /* fall back to positional defaults if header not found */
+    if (idx.name < 0)           idx.name = 0;
+    if (idx.conn < 0)           idx.conn = 1;
+    if (idx.classification < 0) idx.classification = 2;
+    if (idx.freq < 0)           idx.freq = 3;
+    if (idx.comments < 0)       idx.comments = 4;
+
     rows.forEach(row => {
       html += `
         <tr>
           <td class="col-name">${safe(row[idx.name])}</td>
           <td>${badgeConn(row[idx.conn])}</td>
+          <td><span class="badge badge-slate">${safe(row[idx.classification])}</span></td>
           <td><span class="badge badge-slate">${safe(row[idx.freq])}</span></td>
           <td class="col-comments">${safe(row[idx.comments])}</td>
         </tr>`;
@@ -806,7 +785,7 @@ function renderDataSource(sheet) {
 
 /* ── CALCULATIONS SECTION ────────────────────────────── */
 function renderCalculations(sheet) {
-  if (!sheet) return `<p style="color:#8a9bb0;font-style:italic;">No Calculations tab found.</p>`;
+  if (!sheet) return `<p style="color:#777;font-style:italic;">No Calculations tab found.</p>`;
   const { headers, rows } = sheetToRows(sheet);
 
   let html = `
@@ -814,7 +793,7 @@ function renderCalculations(sheet) {
       <thead>
         <tr>
           <th style="width:24%">Calculation Name</th>
-          <th style="width:36%">Formula</th>
+          <th style="width:38%">Formula</th>
           <th>Comments</th>
         </tr>
       </thead>
@@ -825,15 +804,19 @@ function renderCalculations(sheet) {
   } else {
     const h = headers.map(x => x.toLowerCase().replace(/[^a-z]/g, ''));
     const idx = {
-      name:     h.findIndex(x => x.includes('name') || x.includes('calc')) ?? 0,
-      formula:  h.findIndex(x => x.includes('formula') || x.includes('expression') || x.includes('logic')) ?? 1,
-      comments: h.findIndex(x => x.includes('comment') || x.includes('note') || x.includes('desc')) ?? 2,
+      name:     h.findIndex(x => x.includes('name') || x.includes('calc')),
+      formula:  h.findIndex(x => x.includes('formula') || x.includes('expression') || x.includes('logic')),
+      comments: h.findIndex(x => x.includes('comment') || x.includes('note') || x.includes('desc')),
     };
+    if (idx.name < 0)     idx.name = 0;
+    if (idx.formula < 0)  idx.formula = 1;
+    if (idx.comments < 0) idx.comments = 2;
+
     rows.forEach(row => {
       html += `
         <tr>
           <td class="col-name">${safe(row[idx.name])}</td>
-          <td class="mono">${safe(row[idx.formula])}</td>
+          <td class="mono">${highlightBrackets(row[idx.formula])}</td>
           <td class="col-comments">${safe(row[idx.comments])}</td>
         </tr>`;
     });
@@ -844,18 +827,21 @@ function renderCalculations(sheet) {
 
 /* ── CHANGELOG SECTION ───────────────────────────────── */
 function renderChangelog(sheet) {
-  if (!sheet) return `<p style="color:#8a9bb0;font-style:italic;">No Change Log tab found.</p>`;
+  if (!sheet) return `<p style="color:#777;font-style:italic;">No Change Log tab found.</p>`;
   const { headers, rows } = sheetToRows(sheet);
-
-  if (!rows.length) return `<p style="color:#8a9bb0;font-style:italic;">No change log records found.</p>`;
+  if (!rows.length) return `<p style="color:#777;font-style:italic;">No change log records found.</p>`;
 
   const h = headers.map(x => x.toLowerCase().replace(/[^a-z]/g, ''));
   const idx = {
-    dashboard: h.findIndex(x => x.includes('dashboard') || x.includes('report') || x.includes('name')) ?? 0,
-    date:      h.findIndex(x => x.includes('date') || x.includes('time')) ?? 1,
-    type:      h.findIndex(x => x.includes('type') || x.includes('category') || x.includes('change')) ?? 2,
-    comments:  h.findIndex(x => x.includes('comment') || x.includes('note') || x.includes('desc')) ?? 3,
+    dashboard: h.findIndex(x => x.includes('dashboard') || x.includes('report') || x.includes('name')),
+    date:      h.findIndex(x => x.includes('date') || x.includes('time')),
+    type:      h.findIndex(x => x.includes('type') || x.includes('category') || x.includes('change')),
+    comments:  h.findIndex(x => x.includes('comment') || x.includes('note') || x.includes('desc')),
   };
+  if (idx.dashboard < 0) idx.dashboard = 0;
+  if (idx.date < 0)      idx.date = 1;
+  if (idx.type < 0)      idx.type = 2;
+  if (idx.comments < 0)  idx.comments = 3;
 
   let html = '';
   rows.forEach(row => {
@@ -866,7 +852,6 @@ function renderChangelog(sheet) {
     } else if (dateVal) {
       dateVal = String(dateVal);
     }
-
     html += `
       <div class="changelog-entry">
         <div class="cl-header">
@@ -898,19 +883,18 @@ function buildReport(wb, filename) {
     const { rows, headers } = sheetToRows(sheetSummary);
     if (rows.length) {
       const h = headers.map(x => x.toLowerCase().replace(/[^a-z]/g, ''));
-      const ni = h.findIndex(x => x.includes('name') || x.includes('dashboard')) ?? 0;
-      const di = h.findIndex(x => x.includes('developer') || x.includes('dev') || x.includes('author')) ?? 2;
-      if (rows[0][ni]) dashName = rows[0][ni];
-      if (rows[0][di]) developer = rows[0][di];
+      const ni = h.findIndex(x => x.includes('name') || x.includes('dashboard'));
+      const di = h.findIndex(x => x.includes('developer') || x.includes('dev') || x.includes('author'));
+      if (rows[0][ni >= 0 ? ni : 0]) dashName  = rows[0][ni >= 0 ? ni : 0];
+      if (rows[0][di >= 0 ? di : 2]) developer = rows[0][di >= 0 ? di : 2];
     }
   }
 
-  const countCalc = sheetCalc ? sheetToRows(sheetCalc).rows.length : 0;
-  const countData = sheetData ? sheetToRows(sheetData).rows.length : 0;
+  const countCalc = sheetCalc      ? sheetToRows(sheetCalc).rows.length      : 0;
+  const countData = sheetData      ? sheetToRows(sheetData).rows.length      : 0;
   const countLog  = sheetChangelog ? sheetToRows(sheetChangelog).rows.length : 0;
 
   return `
-  <!-- COVER PAGE -->
   <div class="cover-page">
     <div class="cover-accent-bar"></div>
     <div class="cover-grid"></div>
@@ -921,22 +905,10 @@ function buildReport(wb, filename) {
         <div class="cover-subtitle">Auto-generated from workbook data</div>
         <div class="cover-divider"></div>
         <div class="cover-meta-grid">
-          <div class="cover-meta-item">
-            <label>Developer</label>
-            <span>${safe(developer)}</span>
-          </div>
-          <div class="cover-meta-item">
-            <label>Generated</label>
-            <span>${getDate()}</span>
-          </div>
-          <div class="cover-meta-item">
-            <label>Calculations</label>
-            <span>${countCalc} entries</span>
-          </div>
-          <div class="cover-meta-item">
-            <label>Data Sources</label>
-            <span>${countData} connections</span>
-          </div>
+          <div class="cover-meta-item"><label>Developer</label><span>${safe(developer)}</span></div>
+          <div class="cover-meta-item"><label>Generated</label><span>${getDate()}</span></div>
+          <div class="cover-meta-item"><label>Calculations</label><span>${countCalc} entries</span></div>
+          <div class="cover-meta-item"><label>Data Sources</label><span>${countData} connections</span></div>
         </div>
       </div>
       <div class="cover-footer">
@@ -946,7 +918,6 @@ function buildReport(wb, filename) {
     </div>
   </div>
 
-  <!-- TABLE OF CONTENTS -->
   <div class="toc-page">
     <div class="toc-header">
       <div class="section-eyebrow">Contents</div>
@@ -957,31 +928,26 @@ function buildReport(wb, filename) {
       <div class="toc-entry">
         <span class="toc-num">01</span>
         <span class="toc-name">Summary<span class="toc-desc">Dashboard overview, developer, and user information</span></span>
-        <span class="toc-dots"></span>
-        <span class="toc-pg">3</span>
+        <span class="toc-dots"></span><span class="toc-pg">3</span>
       </div>
       <div class="toc-entry">
         <span class="toc-num">02</span>
         <span class="toc-name">Data Sources<span class="toc-desc">Connected data sources, types, and refresh schedules</span></span>
-        <span class="toc-dots"></span>
-        <span class="toc-pg">4</span>
+        <span class="toc-dots"></span><span class="toc-pg">4</span>
       </div>
       <div class="toc-entry">
         <span class="toc-num">03</span>
         <span class="toc-name">Calculations<span class="toc-desc">Formulas, business logic, and calculation definitions</span></span>
-        <span class="toc-dots"></span>
-        <span class="toc-pg">5</span>
+        <span class="toc-dots"></span><span class="toc-pg">5</span>
       </div>
       <div class="toc-entry">
         <span class="toc-num">04</span>
         <span class="toc-name">Change Log<span class="toc-desc">Revision history, updates, and modifications</span></span>
-        <span class="toc-dots"></span>
-        <span class="toc-pg">6</span>
+        <span class="toc-dots"></span><span class="toc-pg">6</span>
       </div>
     </div>
   </div>
 
-  <!-- SECTION 1: SUMMARY -->
   <div class="content-section">
     <div class="section-header">
       <div class="section-eyebrow">01 — Summary</div>
@@ -995,7 +961,6 @@ function buildReport(wb, filename) {
     </div>
   </div>
 
-  <!-- SECTION 2: DATA SOURCES -->
   <div class="content-section">
     <div class="section-header">
       <div class="section-eyebrow">02 — Data Sources</div>
@@ -1009,7 +974,6 @@ function buildReport(wb, filename) {
     </div>
   </div>
 
-  <!-- SECTION 3: CALCULATIONS -->
   <div class="content-section">
     <div class="section-header">
       <div class="section-eyebrow">03 — Calculations</div>
@@ -1023,7 +987,6 @@ function buildReport(wb, filename) {
     </div>
   </div>
 
-  <!-- SECTION 4: CHANGELOG -->
   <div class="content-section">
     <div class="section-header">
       <div class="section-eyebrow">04 — Change Log</div>
@@ -1056,7 +1019,6 @@ function handleFile(file) {
       $('statusBar').classList.add('show');
       $('actionsBar').classList.add('show');
       $('previewWrapper').style.display = 'block';
-
       $('previewWrapper').scrollIntoView({ behavior: 'smooth', block: 'start' });
     } catch (err) {
       alert('Could not parse Excel file. Please ensure it is a valid .xlsx workbook.\n\n' + err.message);
@@ -1067,24 +1029,17 @@ function handleFile(file) {
 
 /* ── PRINT ───────────────────────────────────────────── */
 function printReport() {
-  const report = $('report');
-  const clone = report.cloneNode(true);
+  const clone = $('report').cloneNode(true);
   clone.id = 'print-report';
   clone.style.display = 'block';
   document.body.appendChild(clone);
 
   const style = document.createElement('style');
   style.id = 'print-override';
-  style.textContent = `
-    @media print {
-      body > *:not(#print-report) { display: none !important; }
-      #print-report { display: block !important; }
-    }
-  `;
+  style.textContent = `@media print { body > *:not(#print-report) { display: none !important; } #print-report { display: block !important; } }`;
   document.head.appendChild(style);
 
   window.print();
-
   setTimeout(() => {
     document.body.removeChild(clone);
     document.head.removeChild(style);
@@ -1099,9 +1054,7 @@ function clearReport() {
   $('actionsBar').classList.remove('show');
   $('previewWrapper').style.display = 'none';
   $('fileInput').value = '';
-  ['pill-summary','pill-datasource','pill-calculations','pill-changelog'].forEach(id => {
-    $(id).classList.remove('found');
-  });
+  ['pill-summary','pill-datasource','pill-calculations','pill-changelog'].forEach(id => $(id).classList.remove('found'));
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
