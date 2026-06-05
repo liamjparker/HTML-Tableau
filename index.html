@@ -517,7 +517,7 @@ function renderDataSource(sheet, dashName) {
   const h = headers.map(x => x.toLowerCase().replace(/[^a-z]/g,''));
   const filtered = filterRows(rows, headers, dashName);
   const idx = {
-    name:  colIdx(h,['datasourcename','datasource','name','source'],1),
+    name:  colIdx(h,['datasourcename','datasource','source'],1),
     conn:  colIdx(h,['connection','type','conn'],2),
     freq:  colIdx(h,['freq','update','refresh'],3),
     notes: colIdx(h,['comment','note','desc'],4),
@@ -555,7 +555,7 @@ function renderCalculations(sheet, dashName) {
   const h = headers.map(x => x.toLowerCase().replace(/[^a-z]/g,''));
   const filtered = filterRows(rows, headers, dashName);
   const idx = {
-    name:    colIdx(h,['calculationname','calc','name'],1),
+    name:    colIdx(h,['calculationname','calc'],1),
     formula: colIdx(h,['formula','expression','logic'],2),
     notes:   colIdx(h,['justification','comment','note','desc'],3),
   };
@@ -776,7 +776,7 @@ function exportWord() {
     const h = headers.map(x => x.toLowerCase().replace(/[^a-z]/g,''));
     const filtered = filterRows(rows, headers, dashName);
     const idx = {
-      name:  colIdx(h,['datasourcename','datasource','name','source'],1),
+      name:  colIdx(h,['datasourcename','datasource','source'],1),
       conn:  colIdx(h,['connection','type','conn'],2),
       freq:  colIdx(h,['freq','update','refresh'],3),
       notes: colIdx(h,['comment','note','desc'],4),
@@ -801,7 +801,7 @@ function exportWord() {
     const h = headers.map(x => x.toLowerCase().replace(/[^a-z]/g,''));
     const filtered = filterRows(rows, headers, dashName);
     const idx = {
-      name:    colIdx(h,['calculationname','calc','name'],1),
+      name:    colIdx(h,['calculationname','calc'],1),
       formula: colIdx(h,['formula','expression','logic'],2),
       notes:   colIdx(h,['justification','comment','note','desc'],3),
     };
