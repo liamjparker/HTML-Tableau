@@ -409,6 +409,25 @@ function badgeConn(type, inline) {
   return badge(safe(type), '#f1f5f9', '#475569');
 }
 
+function badgeStatus(status) {
+  if (!status) return badge('—', '#f1f5f9', '#64748b');
+  const t = String(status).toLowerCase();
+  if (t.includes('complet')||t.includes('done')||t.includes('shipped'))  return badge(safe(status), '#d1fae5', '#065f46');
+  if (t.includes('progress')||t.includes('wip')||t.includes('active'))   return badge(safe(status), '#dbeafe', '#1e40af');
+  if (t.includes('reject')||t.includes('declin')||t.includes('no'))      return badge(safe(status), '#fee2e2', '#991b1b');
+  if (t.includes('review')||t.includes('pending')||t.includes('hold'))   return badge(safe(status), '#fff7ed', '#9a3412');
+  return badge(safe(status), '#f1f5f9', '#475569');
+}
+
+function badgeImportance(val) {
+  if (!val) return badge('—', '#f1f5f9', '#64748b');
+  const t = String(val).toLowerCase();
+  if (t.includes('high')||t.includes('critical')||t.includes('urgent')) return badge(safe(val), '#fee2e2', '#991b1b');
+  if (t.includes('med'))  return badge(safe(val), '#fff7ed', '#9a3412');
+  if (t.includes('low'))  return badge(safe(val), '#d1fae5', '#065f46');
+  return badge(safe(val), '#f1f5f9', '#475569');
+}
+
 function badge(text, bg, color) {
   return `<span style="display:inline-block;padding:2px 9px;border-radius:100px;background:${bg};color:${color};font-size:8.5pt;font-weight:600;letter-spacing:0.3px;">${text}</span>`;
 }
